@@ -3,6 +3,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
 
 # Create your models here.
+class StatusManager(models.Manager):
+    def get_queryset(self):
+        return(super().get_queryset().filter(status=RepairJobs.Status.MBV))
 class RepairJobs(models.Model):
     class Status(models.TextChoices):
         MBV = 'MBV', 'Must be validate'
@@ -36,6 +39,8 @@ class RepairJobs(models.Model):
     
     brand = models.CharField(max_length=250, default='not known')
     
+    objects = models.Manager()
+    MBV = StatusManager()
     class Meta:
         ordering = ['-date','-status']
         
@@ -47,6 +52,4 @@ class RepairJobs(models.Model):
         return self.device_name
     
     
-    
     #should add model manager later for just display customer and technician 
-    

@@ -1,0 +1,10 @@
+{% extends "repairs/base.html"%}
+
+{% block title %}Jobs {% endblock%}
+
+{% block content %}
+    {%for job in MBVs %}
+
+        {{ job.device_name }}
+    {% endfor %}
+{% endblock %}
