@@ -39,6 +39,18 @@ class RepairJobs(models.Model):
     
     brand = models.CharField(max_length=250, default='not known')
     
+    # from recieving to shipping between (shipper , customer service , repair technicain)
+    date_recieved = models.DateField(auto_now_add=True)
+    date_assigned = models.DateField(auto_now_add=True)
+    date_validate = models.DateField(auto_now_add=True, blank=True)
+    date_qoute = models.DateField(auto_now_add=True, blank=True)
+    date_accept = models.DateField(auto_now_add=True, blank=True)
+    date_working_on = models.DateField(auto_now_add=True)
+    date_repaired = models.DateField(auto_now_add=True, blank=True)
+    date_confirmed = models.DateField(auto_now_add=True, blank=True)
+    date_shipped = models.DateField(auto_now_add=True, blank=True)
+    
+    
     objects = models.Manager()
     MBV = StatusManager()
     class Meta:
