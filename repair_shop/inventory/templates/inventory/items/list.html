@@ -1,0 +1,11 @@
+{% extends "inventory/base.html" %}
+
+{% block title %} inventory {% endblock %}
+
+{% block body %}
+    hi this a test
+    {% for i in to_buy%}
+        <p>{{i}}</p>
+    {% endfor%}
+
+{% endblock%}
