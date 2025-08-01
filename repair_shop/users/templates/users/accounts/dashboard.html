@@ -1,0 +1,13 @@
+{% extends 'users/base.html'%}
+
+{% block title  %} 
+    <p>dashboard</p>
+{% endblock %}
+
+{%  block body%}
+    <form  method="post">{% csrf_token %}
+        <p>welcome</p>
+        <h1>hello</h1>
+        <button type="submit">logout</button>
+    </form>
+{% endblock%}
