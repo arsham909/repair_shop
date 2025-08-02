@@ -6,6 +6,17 @@ from django.utils import timezone
 class StatusManager(models.Manager):
     def get_queryset(self):
         return(super().get_queryset().filter(status=RepairJobs.Status.MBV))
+    
+class Company(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    phonenumber = models.PositiveIntegerField()
+    
+    def __str__(self):
+        return self.name
+    
+    
+    
 class RepairJobs(models.Model):
     class Status(models.TextChoices):
         MBV = 'MBV', 'Must be validate'
@@ -16,7 +27,7 @@ class RepairJobs(models.Model):
         RTS = 'RTS' , 'Ready To Ship'
         Shipped = 'Shipped', 'Shipped'
         Scrap = 'Scrap', 'Scrapped'
-    
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
     job_number = models.IntegerField(unique=True, )
     device_name = models.CharField(max_length=250, verbose_name="Device brand:")
     notes = models.CharField(max_length=250,)
