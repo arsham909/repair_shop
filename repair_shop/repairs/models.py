@@ -17,12 +17,12 @@ class RepairJobs(models.Model):
         Shipped = 'Shipped', 'Shipped'
         Scrap = 'Scrap', 'Scrapped'
     
-    job_number = models.IntegerField(unique=True, help_text="Enter the job number:")
+    job_number = models.IntegerField(unique=True, )
     device_name = models.CharField(max_length=250, verbose_name="Device brand:")
-    notes = models.CharField(max_length=250, help_text="notes")
+    notes = models.CharField(max_length=250,)
     device_part_number = models.IntegerField(
         validators=[MaxValueValidator(999_999), MinValueValidator(100_000)],
-        help_text="Device Part number",
+        
         verbose_name="Device Part number",
     )
     can_test = models.BooleanField(verbose_name="can device be tested",)
@@ -33,9 +33,9 @@ class RepairJobs(models.Model):
     followed_up = models.CharField(max_length=250)
     
     video = models.FileField(upload_to='videos/',blank=True,
-                            verbose_name='upload video',help_text='upload ur video here')
+                            verbose_name='upload video',)
     
-    parts_needs = models.CharField(max_length=250, help_text='parts needed ', blank=True)
+    parts_needs = models.CharField(max_length=250, blank=True)
     
     brand = models.CharField(max_length=250, default='not known')
     
