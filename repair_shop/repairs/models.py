@@ -27,7 +27,7 @@ class RepairJobs(models.Model):
         RTS = 'RTS' , 'Ready To Ship'
         Shipped = 'Shipped', 'Shipped'
         Scrap = 'Scrap', 'Scrapped'
-    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True, related_name='Repairs') # company.repairs.all()
     job_number = models.IntegerField(unique=True, )
     device_name = models.CharField(max_length=250, verbose_name="Device brand:")
     notes = models.CharField(max_length=250,)

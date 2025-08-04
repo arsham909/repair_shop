@@ -23,5 +23,4 @@ class RepairAdmin(admin.ModelAdmin):
 @admin.register(Company)
 class CompanyAdmin( admin.ModelAdmin):
     list_display = ['name' , 'address' , 'phonenumber']
-    
     inlines = [RepairInLine]
