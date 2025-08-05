@@ -6,9 +6,11 @@ from .forms import AddRepair, AddCompany
 # Create your views here.
 def jobs(request):
     MBVs = RepairJobs.MBV.all()
+    print(dir(request.user))
+    jobs = request.user.Repairs.all()
     return render(
         request, 'repairs/job/list.html',
-        {'MBVs': MBVs}
+        {'MBVs': MBVs, 'jobs': jobs}
     )
     
     

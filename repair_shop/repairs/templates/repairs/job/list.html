@@ -7,4 +7,15 @@
 
         {{ job.device_name }}
     {% endfor %}
+
+
+    {% if jobs %}
+        {% for job in jobs%}
+            <p>{{job.job_number}}</p>
+            <p>{{job.device_name}}</p>
+            <p>{{job.notes}}</p>
+            <p>{{job.date}}</p>
+            <p>{{job.company}}</p>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

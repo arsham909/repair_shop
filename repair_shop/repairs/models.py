@@ -37,7 +37,7 @@ class RepairJobs(models.Model):
         verbose_name="Device Part number",
     )
     can_test = models.BooleanField(verbose_name="can device be tested",)
-    assigned_to = models.CharField(max_length=250)
+    assigned_to = models.CharField(max_length=250,)
     date = models.DateField(auto_now_add=True, verbose_name='date created',)
     status = models.CharField(max_length=10,
                                 choices=Status,default=Status.MBV)
