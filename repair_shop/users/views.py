@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .forms import LoginForm
 
@@ -33,3 +34,8 @@ def logout_view(request):
     if request.method == 'POST':
         logout(request)
         return render(request, 'users/accounts/login.html')
+    
+    
+@login_required
+def dashboard(request):
+    return render(request, 'users/accounts/dashboard.html', {'section': 'dashboard'})
