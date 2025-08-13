@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .models import RepairJobs , Company
 from .forms import AddRepair, AddCompany
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def jobs(request):
     MBVs = RepairJobs.MBV.all()
     print(dir(request.user))
@@ -12,8 +14,8 @@ def jobs(request):
         request, 'repairs/job/list.html',
         {'MBVs': MBVs, 'jobs': jobs}
     )
-    
-    
+
+@login_required
 def AddCompany_view(request):
     
     if request.method == "POST":
@@ -24,17 +26,18 @@ def AddCompany_view(request):
     else:
         form = AddCompany()
     return render(request, "repairs/job/AddCompany.html", {"form": form})
-    
+
+@login_required
 def AddRepairs(request):
     if request.method == "POST":
         form = AddRepair(request.POST)
         if form.is_valid():
             form.save()
-            print(form)
+            # print(form)
         return HttpResponseRedirect("/repairs/thanks/")
     else:
         form = AddRepair()
-        print(form)
+        # print(form)
     return render(request , "repairs/job/AddRepairs.html", {"form": form})
 
 def thanks(request):

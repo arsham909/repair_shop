@@ -1,19 +1,28 @@
-{% extends "base.html" %}
+{% extends "users/base.html" %}
 
-{% block title %}LogIn {% endblock%}
 
-{% block body %}
-    <h2>Log-In</h2>
-    {% if form.errors %}
-        <p>Username and Password is wrong. Please Try Again</p>
-
-    {% else %}
-        <p>Please, use the following form to log-in:</p>
-    {% endif %}
-    <form action="{% url 'login'%}" method="POST">{% csrf_token %}
-        {{form.as_p}}
-        <input type="hidden" name="next" value="{{next}}" />
-        <p><input type="submit" value="log-in"></p>
-    </form>
-
+{% block auth_content %}
+<h2 class="text-2xl font-bold mb-4">Login</h2>
+<form method="post" class="space-y-4">
+    {% csrf_token %}
+    
+    <div>
+        <label for="id_username" class="block mb-1">Username</label>
+        <input type="text" name="username" id="id_username" 
+               class="w-full p-2 border rounded" required>
+    </div>
+    
+    <div>
+        <label for="id_password" class="block mb-1">Password</label>
+        <input type="password" name="password" id="id_password" 
+               class="w-full p-2 border rounded" required>
+    </div>
+    
+    <input type="hidden" name="next" value="{{ next }}">
+    
+    <button type="submit" 
+            class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+        Login
+    </button>
+</form>
 {% endblock %}

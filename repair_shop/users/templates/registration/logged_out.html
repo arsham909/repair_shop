@@ -1,13 +1,11 @@
-{% extends 'base.html' %}
+{% extends "users/base.html" %}
 
 {% block title %} Log-out {% endblock %}
 
-{% block body %}
+{% block auth_content %}
     <div>
-        <h2>Logged out</h2>
         <p>
-            successfully logged out 
-            you can <a href="{% url 'login' %}">login agian</a>
+            Successfully logged out
         </p>
     </div>
 {% endblock %}
