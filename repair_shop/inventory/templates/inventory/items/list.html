@@ -1,11 +1,61 @@
 {% extends "inventory/base.html" %}
 
-{% block title %} inventory {% endblock %}
+{% block title %} Inventory {% endblock %}
 
 {% block body %}
-    hi this a test
-    {% for i in to_buy%}
-        <p>{{i}}</p>
-    {% endfor%}
+    {% if messages %}
+    {% for message in messages %}
+    <div > {{message}}</div>
+    <br>
+    {% endfor %}
+    {% endif %}
+<div class="toolbar">
+    <a href="{% url 'inventory:AddComponents' %}" class="btn-primary">Add Component</a>
+
+    <input
+    type="search"
+    id="searchcomponent"
+    name="searchcomponent1"
+    class="searchbar"
+    placeholder="Search components..."
+    hx-get="{% url 'inventory:search_component' %}"
+    hx-trigger="keyup changed delay:300ms"
+    hx-target="#arsham"
+    hx-swap="innerHTML"
+    />
+</div>
+
+<table class="inventory-table" >
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Part Number</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="arsham">
+        {% for item in to_buy %}
+        <tr class="{% cycle 'odd-row' 'even-row' %}">
+            <td>{{ item.name }}</td>
+            <td>{{ item.part_number }}</td>
+            <td>{{ item.get_category_display }}</td>
+            <td>{{ item.location }}</td>
+            <td class="description-cell">{{ item.description }}</td>
+            <td class="quantity-cell {% if item.quantity < 5 %}low-quantity{% endif %}">
+                {{ item.quantity }}
+            </td>
+            <td class="btn btn-warning">Edit</td>
+            <td class="btn btn-danger">Delete</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 
 {% endblock%}

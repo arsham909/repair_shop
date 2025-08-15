@@ -1,0 +1,81 @@
+/* Basic form container styling */
+.form-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* Grid layout for fields */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+/* Label styling */
+.form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+/* Input, select, textarea styles */
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container select,
+.form-container textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+/* Input focus effect */
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 4px rgba(74, 144, 226, 0.4);
+}
+
+/* Help and error text */
+.help-text {
+    font-size: 12px;
+    color: #777;
+    margin-top: 3px;
+}
+
+.error-text {
+    font-size: 12px;
+    color: #d9534f;
+    margin-top: 3px;
+}
+
+/* Submit button */
+.form-button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background: #357abd;
+}

@@ -5,12 +5,12 @@ from .models import InventoryItem
 @admin.register(InventoryItem)
 class InventoryItemAdd (admin.ModelAdmin):
     list_display = [
-        'name', 'part_number', 'quantity', 'note', 'location',
+        'name', 'part_number', 'quantity', 'description', 'location',
         'category'
     ]
     list_filter = ['location', 'category']
     search_fields = [
-        'name', 'part_number', 'quantity', 'note', 'location',
+        'name', 'part_number', 'quantity', 'description', 'location',
         'category'
     ]
     ordering = ['name']

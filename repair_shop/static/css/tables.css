@@ -1,0 +1,75 @@
+/* Basic Table Styling */
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Styling */
+.inventory-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.inventory-table th,
+.inventory-table td {
+    padding: 12px 15px;
+}
+
+/* Body Styling */
+.inventory-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.inventory-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.inventory-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.inventory-table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Special Cell Styling */
+.description-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.quantity-cell {
+    text-align: center;
+    font-weight: bold;
+}
+
+.low-quantity {
+    color: #ff0000;
+    background-color: #ffdddd;
+}
+
+/* Zebra Striping */
+.odd-row {
+    background-color: #ffffff;
+}
+
+.even-row {
+    background-color: #f9f9f9;
+}
+
+/* Responsive Table */
+@media screen and (max-width: 768px) {
+    .inventory-table {
+        display: block;
+        overflow-x: auto;
+    }
+}
