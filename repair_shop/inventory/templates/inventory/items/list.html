@@ -20,7 +20,7 @@
     placeholder="Search components..."
     hx-get="{% url 'inventory:search_component' %}"
     hx-trigger="keyup changed delay:300ms"
-    hx-target="#arsham"
+    hx-target="#componentstable"
     hx-swap="innerHTML"
     />
 </div>
@@ -35,12 +35,11 @@
             <th>Description</th>
             <th>Quantity</th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
-    <tbody id="arsham">
+    <tbody id="componentstable">
         {% for item in to_buy %}
-        <tr class="{% cycle 'odd-row' 'even-row' %}">
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
             <td>{{ item.name }}</td>
             <td>{{ item.part_number }}</td>
             <td>{{ item.get_category_display }}</td>
@@ -49,8 +48,7 @@
             <td class="quantity-cell {% if item.quantity < 5 %}low-quantity{% endif %}">
                 {{ item.quantity }}
             </td>
-            <td class="btn btn-warning">Edit</td>
-            <td class="btn btn-danger">Delete</td>
+            <td><a href="{% url 'inventory:component_detail' item.pk %}" class="btn-primary">View</a></td>
         </tr>
         {% endfor %}
     </tbody>

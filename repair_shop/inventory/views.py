@@ -1,6 +1,6 @@
-from django.shortcuts import render , redirect , HttpResponseRedirect , HttpResponse
-from .models import InventoryItem
-from .forms import Add_components
+from django.shortcuts import render , redirect , HttpResponseRedirect , HttpResponse , get_object_or_404
+from .models import InventoryItem 
+from .forms import Add_components , make_form_readonly
 from django.contrib import messages
 from django.db.models import Q
 # Create your views here.
@@ -22,9 +22,31 @@ def add_components(request):
         form = Add_components()
     return render(request, 'inventory/items/AddComponents.html', {'form': form} )
 
-def edit_components(request):
-    
-    return 
+def component_detail(request, pk):
+    item = get_object_or_404(InventoryItem, pk=pk)
+    form = Add_components(instance=item)
+    form = make_form_readonly(form)
+    return render(request, 'inventory/items/component.html', {'form': form , 'item':item})
+
+def component_edit(request , pk):
+    item = get_object_or_404(InventoryItem, pk=pk)
+    if request.method == 'POST':
+        form = Add_components(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect(item.get_absolute_url())
+    else:
+        form = Add_components(instance=item)
+    return render (request, 'inventory/items/AddComponents.html', {'form': form} )
+
+def component_delete(request , pk):
+    if request.method == 'POST':
+        item = get_object_or_404(InventoryItem, pk=pk)
+        item.delete()
+        messages.success(request, 'Component deleted successfully!')
+        response = redirect('/inventory/') 
+        response["HX-Redirect"] = response.url  # ← Magic header
+        return response
 
 def thanks(request):
     return render(request, 'inventory/items/thanks.html', )

@@ -2,8 +2,9 @@
 
 {% block title %} Add Conponents {% endblock%}
 
+
 {% block body %}
-<p></p>
+<h1>{{ form.instance.pk|yesno:"Edit Component,Add Component" }}</h1>
 <form method="post" class="form-container">
         <h2 class="form-label">Add Components</h2>
         {% csrf_token %}
