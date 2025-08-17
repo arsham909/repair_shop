@@ -1,0 +1,41 @@
+{% extends 'repairs/base.html'%}
+{% load custom_tags %}
+
+{% block title%} Companies {% endblock %}
+
+{% block body %}
+    <div class="toolbar">
+        <a href="{% url 'repairs:addcompany'%}" class="btn-primary"> Add company</a>
+        <input
+        type="search"
+        id="searchcomponent"
+        name="searchcomponent1"
+        class="searchbar"
+        placeholder="Search repairs..."
+        hx-trigger="keyup changed delay:300ms"
+        hx-target=""
+        hx-swap=""
+        />
+    </div>
+    <table class="inventory-table" >
+    <thead>
+        <tr>
+            {% for field in form %}
+                <th>{{ field.label }}</th>
+            {% endfor %}
+                <th></th>
+        </tr>
+    </thead>
+    <tbody id="componentstable">
+        {% for company in list %}
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                {% for field in form %}
+            <td>{{ company|getattribute:field.name }}</td>
+                {% endfor %}
+                <td><a href='' class="btn-primary">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -2,20 +2,19 @@
 
 {% block title %}Jobs {% endblock%}
 
-{% block content %}
-    {%for job in MBVs %}
+{% block body %}
+<div class="toolbar">
+    <a href="{% url 'repairs:addrepairs'%}" class="btn-primary"> Add repairs</a>
+        <input
+        type="search"
+        id="searchcomponent"
+        name="searchcomponent1"
+        class="searchbar"
+        placeholder="Search repairs..."
+        hx-trigger="keyup changed delay:300ms"
+        hx-target=""
+        hx-swap=""
+        />
 
-        {{ job.device_name }}
-    {% endfor %}
-
-
-    {% if jobs %}
-        {% for job in jobs%}
-            <p>{{job.job_number}}</p>
-            <p>{{job.device_name}}</p>
-            <p>{{job.notes}}</p>
-            <p>{{job.date}}</p>
-            <p>{{job.company}}</p>
-        {% endfor %}
-    {% endif %}
+</div>
 {% endblock %}

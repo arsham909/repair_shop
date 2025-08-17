@@ -1,13 +1,10 @@
 {% extends "repairs/base.html" %}
 
-
-{% block title %}Add Repair {% endblock %}
-
-
+{% block title%} Company {% endblock %}
 
 {% block body %}
     <form method="post" class="form-container">
-        <h2 class="form-label">{{ form.instance.pk|yesno:"Edit Repair, Add Repair" }}</h2>
+        <h2 class="form-label">{{ form.instance.pk|yesno:"Edit Company, Add Company" }}</h2>
         {% csrf_token %}
         <div class="form-grid">
             {% for field in form %}
@@ -29,3 +26,4 @@
         <button type="submit" class="form-button">Submit</button>
     </form>
 {% endblock %}
+

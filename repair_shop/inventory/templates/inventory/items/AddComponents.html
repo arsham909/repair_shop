@@ -4,9 +4,9 @@
 
 
 {% block body %}
-<h1>{{ form.instance.pk|yesno:"Edit Component,Add Component" }}</h1>
 <form method="post" class="form-container">
-        <h2 class="form-label">Add Components</h2>
+        <h2 class="form-label">{{ form.instance.pk|yesno:"Edit Company, Add Company" }}</h2>
+        <br>
         {% csrf_token %}
         <div class="form-grid">
             {% for field in form %}

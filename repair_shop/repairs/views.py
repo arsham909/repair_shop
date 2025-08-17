@@ -7,13 +7,20 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def jobs(request):
-    MBVs = RepairJobs.MBV.all()
-    print(dir(request.user))
-    jobs = request.user.Repairs.all()
+    # MBVs = RepairJobs.MBV.all()
+    # print(dir(request.user))
+    # jobs = request.user.Repairs.all()
     return render(
-        request, 'repairs/job/list.html',
-        {'MBVs': MBVs, 'jobs': jobs}
-    )
+        request, 'repairs/job/list.html')
+
+def list_companies(request):
+    list = Company.objects.all()
+    form = AddCompany()
+    print(list)
+    return render(request, 'repairs/company/company_list.html', {'list':list , 'form':form})
+
+def companies_detail(request, pk):
+    return 
 
 @login_required
 def AddCompany_view(request):
@@ -25,7 +32,7 @@ def AddCompany_view(request):
             return HttpResponseRedirect("/repairs/thanks/")
     else:
         form = AddCompany()
-    return render(request, "repairs/job/AddCompany.html", {"form": form})
+    return render(request, "repairs/company/AddCompany.html", {"form": form})
 
 @login_required
 def AddRepairs(request):

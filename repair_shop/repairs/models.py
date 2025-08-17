@@ -9,14 +9,30 @@ class StatusManager(models.Manager):
     
 class Company(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    phonenumber = models.PositiveIntegerField()
+    address = models.TextField()
+    phonenumber = models.CharField(max_length=20, blank=True)
+    postal_code = models.CharField(max_length=15)
+    notes = models.TextField(blank=True)
+    email = models.EmailField(blank=True)
+    contact_person = models.CharField(max_length=100)
     
     def __str__(self):
         return self.name
     
-    
-    
+class Client(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True,null=True, related_name='clients')
+    name = models.CharField(max_length=20)
+    phone_numeber = models.CharField(max_length=20)
+    email = models.EmailField(max_length=50 , blank=True)
+    address = models.CharField(max_length=100 , blank=True)
+    notes = models.TextField()
+    #clien_for = models.TextChoices() should add this part - cleint is from who and should get choices from the user database and can add to the this
+    def __str__(self):
+        if self.company:
+            return f'{self.name} from {self.company}'
+        return f'{self.name}'
+
+
 class RepairJobs(models.Model):
     class Status(models.TextChoices):
         MBV = 'MBV', 'Must be validate'
@@ -28,14 +44,12 @@ class RepairJobs(models.Model):
         Shipped = 'Shipped', 'Shipped'
         Scrap = 'Scrap', 'Scrapped'
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True, related_name='Repairs') # company.repairs.all()
-    job_number = models.IntegerField(unique=True, )
+    job_number = models.PositiveIntegerField(unique=True, )
     device_name = models.CharField(max_length=250, verbose_name="Device brand:")
     notes = models.CharField(max_length=250,)
-    device_part_number = models.IntegerField(
+    device_part_number = models.PositiveIntegerField(
         validators=[MaxValueValidator(999_999), MinValueValidator(100_000)],
-        
-        verbose_name="Device Part number",
-    )
+        verbose_name="Device Part number")
     can_test = models.BooleanField(verbose_name="can device be tested",)
     assigned_to = models.CharField(max_length=250,)
     date = models.DateField(auto_now_add=True, verbose_name='date created',)

@@ -53,10 +53,11 @@ class InventoryItem(models.Model):
     
     name = models.CharField(max_length=250)
     part_number = models.CharField(max_length=250)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     description = models.TextField(max_length=250)
     location = models.CharField(max_length=250)
     category = models.CharField(max_length=50, choices=Category, default=Category.RESISTORS)
+    # add less than this number give the technician warning
     
     objects = models.Manager()
     

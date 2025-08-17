@@ -7,9 +7,9 @@
             {% if user.is_authenticated %}
                 <!-- <span>Welcome, {{ request.user.username }}</span> -->
                 <a href="{% url 'dashboard' %}" class="text-blue-600">Dashboard</a>
-                <a href="{% url 'repairs:addrepairs' %}" class="text-blue-600">Add repairs</a>
+                <a href="{% url 'repairs:repairs' %}" class="text-blue-600">Repairs</a>
+                <a href="{% url 'repairs:companieslist' %}" class="text-blue-600">Companies</a>
                 <a href="{% url 'inventory:inventory' %}" class="text-blue-600">Inventory</a>
-                <a href="{% url 'repairs:jobs' %}" class="text-blue-600">Jobs</a>
                 <form action="{% url 'logout' %}" method="post" class="inline">
                     {% csrf_token %}
                     <button type="submit" class="text-blue-600 bg-transparent border-none cursor-pointer">Logout</button>
