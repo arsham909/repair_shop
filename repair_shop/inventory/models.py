@@ -57,8 +57,9 @@ class InventoryItem(models.Model):
     description = models.TextField(max_length=250)
     location = models.CharField(max_length=250)
     category = models.CharField(max_length=50, choices=Category, default=Category.RESISTORS)
+    is_active = models.BooleanField(default=True)
+    trigger = models.PositiveIntegerField(max_length=2, default=0)
     # add less than this number give the technician warning
-    
     objects = models.Manager()
     
     to_buy = Stustmanager()

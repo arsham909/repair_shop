@@ -1,10 +1,15 @@
-{% extends 'inventory/base.html' %}
+{% extends 'repairs/base.html' %}
 
-{% block title %} {{ item.name }} {% endblock%}
+{% block title %}{{ company.name }}{% endblock %}
+
+
+
 
 {% block body %}
-    <form class="form-container">
-        <div class="form-grid" >
+    <form method="post" class="form-container">
+        <h2 class="form-label">{{ form.instance.pk|yesno:"Edit Company, Add Company , Company" }}</h2>
+        {% csrf_token %}
+        <div class="form-grid">
             {% for field in form %}
             <div class="form-group">
                 <label for="{{ field.id_for_label }}" class="form-label">
@@ -20,20 +25,23 @@
             </div>
             {% endfor %}
         </div>
-        <br>
-        <div class="actions">
-            <a href="{% url 'inventory:component_edit' item.pk %}" class="btn btn-primary">Edit</a>
-            <a href="/inventory/" class="btn btn-warning">Back to list</a>
-            <button
+        <p> </p>
+        <a href="{% url 'repairs:company_edit' company.pk %}" class="btn-primary">Edit </a>
+        <a href="{% url 'repairs:companies_list'%}" class="btn btn-warning">Back to list</a>
+        
+        <a href="{% url 'repairs:component_delete' company.pk %}" class="btn-primary" hx-confirm="Are you sure you want to delete this component?">deactive </a>
+        <button type="submit" class="btn btn-primary" >
+
+        </button>
+        <button
             type="button"
             class="btn btn-danger"
-            hx-post="{% url 'inventory:component_delete' item.pk %}"
+            hx-post="{% url 'repairs:component_delete' company.pk %}"
             hx-confirm="Are you sure you want to delete this component?"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-trigger="click"
-            hx-swap="none">
+            hx-swap = "none">
             Delete
         </button>
-        </div>
     </form>
 {% endblock %}

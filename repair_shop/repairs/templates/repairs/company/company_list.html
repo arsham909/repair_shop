@@ -32,7 +32,7 @@
                 {% for field in form %}
             <td>{{ company|getattribute:field.name }}</td>
                 {% endfor %}
-                <td><a href='' class="btn-primary">View</a></td>
+                <td><a href='{% url "repairs:company_detail" company.pk %}' class="btn-primary">View</a></td>
         </tr>
         {% endfor %}
     </tbody>

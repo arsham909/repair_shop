@@ -10,8 +10,15 @@ class Add_components(forms.ModelForm):
             'location',
             'category',
             'description',
-            'quantity'
+            'quantity',
+            'trigger',
         ]
+        labels = {
+            'trigger': 'Notify me reach:'
+        }
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control'})
+        }
         
         
 def make_form_readonly(form):

@@ -1,4 +1,6 @@
-from django.shortcuts import render , redirect , HttpResponseRedirect , HttpResponse , get_object_or_404
+from django.shortcuts import render , redirect , HttpResponseRedirect , get_object_or_404 
+from django.urls import reverse
+from django.http import HttpResponse
 from .models import InventoryItem 
 from .forms import Add_components , make_form_readonly
 from django.contrib import messages
@@ -6,7 +8,7 @@ from django.db.models import Q
 # Create your views here.
 
 def inventory(request):
-    to_buy = InventoryItem.to_buy.all().order_by('category', 'quantity')
+    to_buy = InventoryItem.to_buy.filter(is_active='True').order_by('category', 'quantity')
     all = InventoryItem.to_buy.quantity()
     
     return render(request,'inventory/items/list.html', {'to_buy': to_buy, 'all': all})
@@ -42,10 +44,11 @@ def component_edit(request , pk):
 def component_delete(request , pk):
     if request.method == 'POST':
         item = get_object_or_404(InventoryItem, pk=pk)
-        item.delete()
+        item.is_active = False
+        item.save(update_fields=['is_active'])
         messages.success(request, 'Component deleted successfully!')
-        response = redirect('/inventory/') 
-        response["HX-Redirect"] = response.url  # ← Magic header
+        response = HttpResponse(status=204)
+        response["HX-Redirect"] = reverse('inventory:inventory')  # ← Magic header
         return response
 
 def thanks(request):

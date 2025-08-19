@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404 , redirect
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 from .models import RepairJobs , Company
-from .forms import AddRepair, AddCompany
+from .forms import AddRepair, display_company , Company_details , make_form_readonly
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -14,24 +15,46 @@ def jobs(request):
         request, 'repairs/job/list.html')
 
 def list_companies(request):
-    list = Company.objects.all()
-    form = AddCompany()
-    print(list)
+    list = Company.objects.all().filter(is_active='True')
+    form = display_company()
     return render(request, 'repairs/company/company_list.html', {'list':list , 'form':form})
 
-def companies_detail(request, pk):
-    return 
+def company_detail(request, pk):
+    company = get_object_or_404(Company, pk=pk)
+    form = Company_details(instance=company)
+    form = make_form_readonly(form)
+    return render(request, 'repairs/company/company_detail.html', {'form':form , 'company':company})
+
+def company_edit(request, pk):
+    company = get_object_or_404(Company, pk=pk)
+    form = Company_details(instance=company)
+    if request.method == "POST":
+        form = Company_details(request.POST, instance=company)
+        if form.is_valid():
+            form.save()
+        return redirect(company.get_absolute_url())
+    else:
+        form = Company_details(instance=company)
+    return render(request, 'repairs/company/AddCompany.html' , {'form':form})
+
+def compnay_delete(request, pk):
+    if request.method == "POST":
+        company = get_object_or_404(Company, pk=pk)
+        company.is_active = False
+        messages.success(request, 'Company deleted successfully!')
+        
+    return redirect('/repairs/companies/list/')
 
 @login_required
 def AddCompany_view(request):
     
     if request.method == "POST":
-        form = AddCompany(request.POST)
+        form = Company_details(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/repairs/thanks/")
     else:
-        form = AddCompany()
+        form = Company_details()
     return render(request, "repairs/company/AddCompany.html", {"form": form})
 
 @login_required

@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils import timezone
+from django.urls import reverse
 
 # Create your models here.
 class StatusManager(models.Manager):
@@ -10,14 +11,18 @@ class StatusManager(models.Manager):
 class Company(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField()
-    phonenumber = models.CharField(max_length=20, blank=True)
+    phonenumber = models.CharField(max_length=50, blank=True)
     postal_code = models.CharField(max_length=15)
     notes = models.TextField(blank=True)
     email = models.EmailField(blank=True)
     contact_person = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
     
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('repairs:company_detail', args=[self.pk])
     
 class Client(models.Model):
     company = models.ForeignKey(Company, on_delete=models.DO_NOTHING, blank=True,null=True, related_name='clients')

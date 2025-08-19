@@ -79,3 +79,7 @@
 .form-button:hover {
     background: #357abd;
 }
+
+.form-control{
+    height: 5rem;
+}
