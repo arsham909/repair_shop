@@ -19,7 +19,7 @@
     class="searchbar"
     placeholder="Search components..."
     hx-get="{% url 'inventory:search_component' %}"
-    hx-trigger="keyup changed delay:300ms"
+    hx-trigger="input delay:300ms"
     hx-target="#componentstable"
     hx-swap="innerHTML"
     />
