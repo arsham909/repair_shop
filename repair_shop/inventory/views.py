@@ -57,13 +57,14 @@ def thanks(request):
 
 def searchcomponent(request):
     query = request.GET.get('searchcomponent1', '')
-    
-    components = InventoryItem.objects.filter(
-    Q(name__icontains=query) |
-    Q(part_number__icontains=query) |
-    Q(description__icontains=query) |
-    Q(location__icontains=query) |
-    Q(category__icontains=query)
-        ).order_by('category', 'quantity')
-    
+    components = InventoryItem.objects.filter(is_active=True)
+    if query:
+        components = InventoryItem.objects.filter(
+        Q(name__icontains=query) |
+        Q(part_number__icontains=query) |
+        Q(description__icontains=query) |
+        Q(location__icontains=query) |
+        Q(category__icontains=query)
+            ).order_by('category', 'quantity')
+    components = components.order_by('category', 'quantity')
     return render(request,'inventory/partials/searchcomponent.html', {'to_buy': components})

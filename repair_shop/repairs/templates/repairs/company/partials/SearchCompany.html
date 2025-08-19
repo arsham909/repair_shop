@@ -1,0 +1,22 @@
+{% load custom_tags %}
+<table class="inventory-table" id="companytable" >
+<thead>
+    <tr>
+        {% for field in form %}
+            <th>{{ field.label }}</th>
+        {% endfor %}
+            <th></th>
+    </tr>
+</thead>
+<tbody id="companytable">
+        {% for company in list %}
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                {% for field in form %}
+                    <td>{{ company|getattribute:field.name }}</td>
+                    
+                {% endfor %}
+                <td><a href='{% url "repairs:company_detail" company.pk %}' class="btn-primary">View</a></td>
+        </tr>
+        {% endfor %}
+</tbody>
+</table>

@@ -1,10 +1,11 @@
 from django.shortcuts import render , get_object_or_404 , redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect , HttpResponse
+from django.urls import reverse
 from django.contrib import messages
 from .models import RepairJobs , Company
 from .forms import AddRepair, display_company , Company_details , make_form_readonly
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 # Create your views here.
 
 def jobs(request):
@@ -41,11 +42,12 @@ def compnay_delete(request, pk):
     if request.method == "POST":
         company = get_object_or_404(Company, pk=pk)
         company.is_active = False
+        company.save(update_fields=['is_active'])
         messages.success(request, 'Company deleted successfully!')
-        
-    return redirect('/repairs/companies/list/')
+        response = HttpResponse(status=204)
+        response["HX-Redirect"] = reverse('repairs:companies_list')
+    return response
 
-@login_required
 def AddCompany_view(request):
     
     if request.method == "POST":
@@ -56,6 +58,22 @@ def AddCompany_view(request):
     else:
         form = Company_details()
     return render(request, "repairs/company/AddCompany.html", {"form": form})
+
+def search_company(request):
+    query = request.GET.get('search_company', '')
+    companies = Company.objects.filter(is_active=True)
+    form = display_company()
+    if query:
+        companies = Company.objects.filter(
+        Q(name__icontains=query) |
+        Q(address__icontains=query) |
+        Q(phonenumber__icontains=query) |
+        Q(contact_person__icontains=query) |
+        Q(postal_code__icontains=query) |
+        Q(email__icontains=query) 
+            )
+    companies = companies.order_by('name')
+    return render(request,'repairs/company/partials/SearchCompany.html', {'list': companies, 'form':form})
 
 @login_required
 def AddRepairs(request):

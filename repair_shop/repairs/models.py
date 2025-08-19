@@ -9,7 +9,7 @@ class StatusManager(models.Manager):
         return(super().get_queryset().filter(status=RepairJobs.Status.MBV))
     
 class Company(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     address = models.TextField()
     phonenumber = models.CharField(max_length=50, blank=True)
     postal_code = models.CharField(max_length=15)

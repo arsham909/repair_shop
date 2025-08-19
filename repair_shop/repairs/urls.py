@@ -12,6 +12,6 @@ urlpatterns = [
     path('companies/list/',views.list_companies, name='companies_list'),
     path('company/<int:pk>/', views.company_detail, name='company_detail'),
     path('company/edit/<int:pk>', views.company_edit, name='company_edit'),
-    path('company/delete/<int:pk>', views.compnay_delete, name='component_delete'),
-    
+    path('company/delete/<int:pk>', views.compnay_delete, name='company_delete'),
+    path('search/companies', views.search_company, name='search_companies' )
 ]
