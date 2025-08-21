@@ -2,7 +2,7 @@ from django.shortcuts import render , get_object_or_404 , redirect
 from django.http import HttpResponseRedirect , HttpResponse
 from django.urls import reverse
 from django.contrib import messages
-from .models import RepairJobs , Company
+from .models import Repair , Company
 from .forms import AddRepair, display_company , Company_details , make_form_readonly
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q

@@ -1,9 +1,9 @@
 from django import forms
-from .models import RepairJobs , Company
+from .models import Repair , Company
 
 class AddRepair(forms.ModelForm):
     class Meta:
-        model = RepairJobs
+        model = Repair
         # fields = ['job_number', 'device_name']
         fields = "__all__"
         
