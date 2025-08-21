@@ -2,7 +2,7 @@
 import factory
 from factory import  fuzzy
 
-
+from .choices import Category
 from .models import InventoryItem
 
 
@@ -17,7 +17,7 @@ class InventoryItemFactory(factory.django.DjangoModelFactory):
     location = factory.Faker('word')
     
     # Use a random choice from the Category enum
-    category = fuzzy.FuzzyChoice([choice[0] for choice in InventoryItem.Category.choices])
+    category = fuzzy.FuzzyChoice([choice[0] for choice in Category.choices])
     
     is_active = True
     trigger = fuzzy.FuzzyInteger(0, 10)

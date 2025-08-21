@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from .choices import Category
+from simple_history.models import HistoricalRecords
 
 # Create your models here.
 class Stustmanager(models.Manager):
@@ -10,47 +12,7 @@ class Stustmanager(models.Manager):
     
 
 class InventoryItem(models.Model):
-    class Category(models.TextChoices):
-        RESISTORS = 'RES', 'Resistors'
-        CAPACITORS = 'CAP', 'Capacitors'
-        INDUCTORS = 'IND', 'Inductors'
-        DIODES = 'DIO', 'Diodes'
-        LEDS = 'LED', 'LEDs'
-        TRANSISTORS = 'TRA', 'Transistors'
-        FETS = 'FET', 'FETs & MOSFETs'
-        THYRISTORS = 'SCR', 'Thyristors & SCRs'
-        ICS = 'INT', 'Integrated Circuits'
-        MICROCONTROLLERS = 'MIC', 'Microcontrollers'
-        MEMORY = 'MEM', 'Memory'
-        SENSORS = 'SEN', 'Sensors'
-        CRYSTALS = 'CRY', 'Crystals & Oscillators'
-        RELAYS = 'REL', 'Relays'
-        SWITCHES = 'SWI', 'Switches'
-        BUTTONS = 'BUT', 'Buttons'
-        POTENTIOMETERS = 'POT', 'Potentiometers & Trimmers'
-        CONNECTORS = 'CON', 'Connectors'
-        TERMINALS = 'TER', 'Terminals'
-        HEADERS = 'HEA', 'Headers & Sockets'
-        FUSES = 'FUS', 'Fuses'
-        BREAKERS = 'BRE', 'Circuit Breakers'
-        TRANSFORMERS = 'TRANSF', 'Transformers'
-        REGULATORS = 'REG', 'Voltage Regulators'
-        DISPLAYS = 'DIS', 'Displays'
-        POWER_SUPPLIES = 'POW', 'Power Supplies'
-        BATTERIES = 'BAT', 'Batteries'
-        MOTORS = 'MOT', 'Motors'
-        FANS = 'FAN', 'Fans & Heat Sinks'
-        FILTERS = 'FIL', 'Filters'
-        ANTENNAS = 'ANT', 'Antennas'
-        MODULES = 'MOD', 'Modules'
-        PCBS = 'PCB', 'PCB & Prototyping'
-        TOOLS = 'TOO', 'Tools & Accessories'
-        WIRES = 'WIR', 'Wires & Cables'
-        HARDWARE = 'HAR', 'Hardware'
-        MECHANICAL = 'MEC', 'Mechanical Parts'
-        LABELS = 'LAB', 'Labels & Markers'
-        OTHER = 'OTH', 'Other'
-    
+
     name = models.CharField(max_length=250)
     part_number = models.CharField(max_length=250)
     quantity = models.PositiveIntegerField()
@@ -58,7 +20,9 @@ class InventoryItem(models.Model):
     location = models.CharField(max_length=250)
     category = models.CharField(max_length=50, choices=Category, default=Category.RESISTORS)
     is_active = models.BooleanField(default=True)
-    trigger = models.PositiveIntegerField(max_length=2, default=0)
+    trigger = models.PositiveIntegerField( default=0)
+    
+    history = HistoricalRecords()
     # add less than this number give the technician warning
     objects = models.Manager()
     
