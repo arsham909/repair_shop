@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'repairs.apps.RepairsConfig',
     'inventory.apps.InventoryConfig',
     'simple_history',
+    'django_fsm',
 ]
 
 MIDDLEWARE = [

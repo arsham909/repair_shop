@@ -45,8 +45,6 @@ class Client(models.Model):
     #clien_for = models.TextChoices() should add this part - cleint is from who and should get choices from the user database and can add to the this
     def __str__(self):
         return f'{self.company or self.name}'
-
-
 #Device informations
 class Device(models.Model):
     brand = models.CharField(max_length=100, verbose_name='Brand')
@@ -68,7 +66,7 @@ class Repair(models.Model):
     client = models.ForeignKey(Client, on_delete=models.ProtectedError, null=True, blank=True, related_name='Repairs',) # company.repairs.all()
     device = models.ForeignKey(Device, on_delete=models.ProtectedError,related_name='Device' )
     created_by = models.ForeignKey(User, on_delete=models.ProtectedError, verbose_name='Created by:', related_name='createdby')
-    created_at = models.DateField(auto_now_add=True, verbose_name='Created at',)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at',)
     
     state = FSMField(default=State.RECEIVED, protected=True)
     
@@ -80,13 +78,20 @@ class Repair(models.Model):
     video = models.FileField(upload_to='videos/',blank=True, verbose_name='upload video',)
     parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs')
     parts_total_price = models.PositiveIntegerField(verbose_name='At least total price of parts $:')
-    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, default=CustomerRespond.APPROVED)
+    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, default=CustomerRespond.APPROVED, verbose_name='Customer respond')
     
-    tracking_number = models.CharField(max_length=100, blank=True)
+    tracking_number = models.CharField(max_length=100, blank=True, verbose_name='Tracking number')
+    updated_at = models.DateTimeField(auto_now=True, )
     history
+    
     
     objects = models.Manager()
     MBV = StatusManager()
+    
+    def __str__(self):
+        return f'Repair {self.job_number}  {self.device} for {self.company} [{self.state}]'
+    
+    @transition
     # class Meta:
         # ordering = ['']
         
