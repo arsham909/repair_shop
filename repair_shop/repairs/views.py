@@ -4,20 +4,28 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, FormView, TemplateView
 from .models import Repair , Company
-from .forms import AddRepair, display_company , Company_details , make_form_readonly , Check_inForm, Assign_toForm
+from .forms import AddRepair, display_company , Company_details , make_form_readonly , Device_form, Assign_toForm
 # Create your views here.
 
 #veiw for add repair
-class CheckInCreateView(CreateView):
-    model = Repair
-    form_class = Check_inForm
-    template_name = "repairs/job/checkin_form.html"
-    def form_valid(self, form):
-        form.save()
-        return redirect('repairs:repairs')
-
+class CheckIn(TemplateView):
+    template_name = 'repairs/job/checkin_form.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Device_form'] = Device_form()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        Device_input = Device_form(request.POST)
+        
+        if Device_input.is_valid():
+            Device_input.save()
+            return redirect('repairs:repairs')
+    
+    
 def jobs(request):
     # MBVs = RepairJobs.MBV.all()
     # print(dir(request.user))

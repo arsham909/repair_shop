@@ -49,10 +49,15 @@ class Company_details(forms.ModelForm):
         
 #forms for repairs transition 
 #start here
-class Check_inForm(forms.ModelForm):
+class Device_form (forms.ModelForm):
     class Meta:
-        model = Repair
-        fields = ['job_number', 'client', 'device', 'created_by' ]
+        model = Device
+        fields = '__all__'
+        widgets = {
+            'complain': forms.Textarea(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'shipped_from': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 class Assign_toForm(forms.ModelForm):
     class Meta:
