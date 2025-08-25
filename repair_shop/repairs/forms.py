@@ -1,5 +1,5 @@
 from django import forms
-from .models import Repair , Company
+from .models import Repair , Company , Device
 
 class AddRepair(forms.ModelForm):
     class Meta:
@@ -46,6 +46,20 @@ class Company_details(forms.ModelForm):
             'notes': forms.Textarea(attrs={'class': 'form-control'}),
         }
         
+        
+#forms for repairs transition 
+#start here
+class Check_inForm(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = ['job_number', 'client', 'device', 'created_by' ]
+
+class Assign_toForm(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = ['assigned_to']
+
+    
 def make_form_readonly(form):
     """
     Loops through form fields and makes them read-only/disabled.
@@ -56,3 +70,4 @@ def make_form_readonly(form):
         field.widget.attrs['readonly'] = True
         field.widget.attrs['disabled'] = True
     return form
+
