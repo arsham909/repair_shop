@@ -8,6 +8,7 @@ class State(models.TextChoices):
     QUOTED = "quoted", "Quoted"
     APPROVED = "approved", "Approved"
     REPAIRING = "repairing", "Repairing"
+    REPAIRED = 'repaired', 'Repaired'
     WAITING_FOR_PART = "waiting_for_part", "Waiting for part"
     PART_ADDED = 'part_added', 'Part added'
     SHIPPED = "shipped", "Shipped"

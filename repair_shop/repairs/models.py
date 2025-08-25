@@ -71,7 +71,7 @@ class Repair(models.Model):
     state = FSMField(default=State.RECEIVED, protected=True)
     
     # data get at various steps
-    assigned_to = models.ForeignKey(User,on_delete=models.ProtectedError, blank=True,null=True, verbose_name='Assigened to:')
+    assigned_to = models.ForeignKey(User, on_delete=models.ProtectedError, blank=True,null=True, verbose_name='Assigened to:')
     can_test = models.BooleanField(blank=True,verbose_name="Can device be tested")
     notes = models.TextField(blank=True, max_length=250,)
     followed_up = models.CharField(max_length=250)
@@ -91,7 +91,42 @@ class Repair(models.Model):
     def __str__(self):
         return f'Repair {self.job_number}  {self.device} for {self.company} [{self.state}]'
     
-    @transition
+    @transition(field=state, source=State.RECEIVED, target=State.ASSIGNED )
+    def move_to_assign(self):
+        return 
+    
+    @transition(field=state, source=State.ASSIGNED, target=State.EVALUATING)
+    def move_to_evaluating(self):
+        return 
+    
+    @transition(field=state, source=State.VALIDATED, target=State.QUOTED)
+    def move_to_qouting(self):
+        return
+    @transition(field=state, source=State.QUOTED, target=State.APPROVED)
+    def move_to_approved(self):
+        return
+    @transition(field=state, source=[State.APPROVED, State.PART_ADDED], target=State.REPAIRING)
+    def move_to_repairing(self):
+        return
+    @transition(field=state, source=State.REPAIRING, target=State.PART_ADDED)
+    def move_to_part_adding(self):
+        return
+    @transition(field=state, source=State.REPAIRING, target=State.WAITING_FOR_PART)
+    def move_to_waiting_part(self):
+        return
+    @transition(field=state, source=State.REPAIRING, target=State.REPAIRED)
+    def move_to_repaired(self):
+        return
+    @transition(field=state, source=State.REPAIRED, target=State.READY_TO_SHIP )
+    def move_to_read_to_ship(self):
+        return
+    @transition(field=state, source=State.READY_TO_SHIP, target=State.SHIPPED)
+    def move_to_shipped(self):
+        return
+    @transition(field=state, source=State.SHIPPED, target=State.DONE)
+    def move_to_done(self):
+        return
+
     # class Meta:
         # ordering = ['']
         
