@@ -52,7 +52,10 @@ class Device(models.Model):
     part_number = models.CharField(max_length=100, verbose_name='Part number')
     serial_number = models.CharField(max_length=100, verbose_name='Serial number')
     complain = models.TextField(blank=True, verbose_name='Customer complain')
-    description = models.TextField(blank=True, )
+    description = models.TextField(blank=True, verbose_name='Notes')
+    shipped_from = models.TextField(blank=True , verbose_name='shipped from')
+    postal_code = models.CharField(max_length=10, blank=True, verbose_name='Postal code')
+    phone_numnber = models.CharField(blank=True, max_length=15 , verbose_name='Phone number')
     history
     
     def __str__(self):
