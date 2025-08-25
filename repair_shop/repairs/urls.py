@@ -1,12 +1,14 @@
 from django.urls import path
 from . import views
+from .views import CheckInCreateView
 
 app_name = 'repairs'
 
 urlpatterns = [
     path('', views.jobs, name='repairs'),
-    path('addrepairs/', views.AddRepairs, name='addrepairs'),
+    # path('addrepairs/', views.AddRepairs, name='addrepairs'),
     path('thanks/', views.thanks, name='thanks'),
+    path('checkin/', CheckInCreateView.as_view()),
     
     path('addcompany/', views.AddCompany_view, name='addcompany'),
     path('companies/list/',views.list_companies, name='companies_list'),

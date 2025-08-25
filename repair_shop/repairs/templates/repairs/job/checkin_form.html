@@ -1,0 +1,8 @@
+{% extends "repairs/base.html" %}
+
+{% block body %}
+    <form action="" method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+    </form>
+{% endblock %}

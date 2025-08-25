@@ -2,11 +2,21 @@ from django.shortcuts import render , get_object_or_404 , redirect
 from django.http import HttpResponseRedirect , HttpResponse
 from django.urls import reverse
 from django.contrib import messages
-from .models import Repair , Company
-from .forms import AddRepair, display_company , Company_details , make_form_readonly
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.views.generic import CreateView, FormView
+from .models import Repair , Company
+from .forms import AddRepair, display_company , Company_details , make_form_readonly , Check_inForm, Assign_toForm
 # Create your views here.
+
+#veiw for add repair
+class CheckInCreateView(CreateView):
+    model = Repair
+    form_class = Check_inForm
+    template_name = "repairs/job/checkin_form.html"
+    def form_valid(self, form):
+        form.save()
+        return redirect('repairs:repairs')
 
 def jobs(request):
     # MBVs = RepairJobs.MBV.all()
@@ -75,18 +85,21 @@ def search_company(request):
     companies = companies.order_by('name')
     return render(request,'repairs/company/partials/SearchCompany.html', {'list': companies, 'form':form})
 
-@login_required
-def AddRepairs(request):
-    if request.method == "POST":
-        form = AddRepair(request.POST)
-        if form.is_valid():
-            form.save()
-            # print(form)
-        return HttpResponseRedirect("/repairs/thanks/")
-    else:
-        form = AddRepair()
-        # print(form)
-    return render(request , "repairs/job/AddRepairs.html", {"form": form})
+# @login_required
+# def AddRepairs(request):
+#     if request.method == "POST":
+#         form = AddRepair(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             # print(form)
+#         return HttpResponseRedirect("/repairs/thanks/")
+#     else:
+#         form = AddRepair()
+#         # print(form)
+#     return render(request , "repairs/job/AddRepairs.html", {"form": form})
+
+
+
 
 def thanks(request):
     return render(request, 'repairs/job/thanks.html', )
