@@ -8,6 +8,7 @@
                 <!-- <span>Welcome, {{ request.user.username }}</span> -->
                 <a href="{% url 'dashboard' %}" class="text-blue-600">Dashboard</a>
                 <a href="{% url 'repairs:repairs' %}" class="text-blue-600">Repairs</a>
+                <a href="{% url 'repairs:clients_list' %}" class="text-blue-600">Clients</a>
                 <a href="{% url 'repairs:companies_list' %}" class="text-blue-600">Companies</a>
                 <a href="{% url 'inventory:inventory' %}" class="text-blue-600">Inventory</a>
                 <form action="{% url 'logout' %}" method="post" class="inline">

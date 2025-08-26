@@ -47,7 +47,7 @@ class ClientCreateView(CreateView):
     model = Repair
     form_class = Client_Create_form
     template_name = 'repairs/client/client_create_form.html'
-    success_url = '/repairs/job/list'
+    success_url = '/repairs/clients'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -58,7 +58,9 @@ class ClientCreateView(CreateView):
         new_client = Client_Create_form(request.POST)
         if new_client.is_valid():
             new_client.save()
-        return render(request, 'repairs/job/list.html',)
+            return redirect('repairs:clients_list')
+        return render(request, 'repairs/client/client_create_form.html')
+        
     
 class Clients(TemplateView):
     template_name = 'repairs/client/clients_list.html'
@@ -72,7 +74,7 @@ class ClientDetailView(DetailView):
     model = Client
     template_name = 'repairs/client/client_detail.html'
     fields ='__all__'
-    success_url = '/repairs/job/list'
+    # success_url = '/repairs/job/list'
     
     def get_context_data(self, **kwargs ):
         context = super().get_context_data(**kwargs)

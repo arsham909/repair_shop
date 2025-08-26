@@ -18,7 +18,7 @@ class StatusManager(models.Manager):
         return(super().get_queryset().filter(status=Repair.Status.MBV))
     
 class Client(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20, verbose_name='Phone number')
     email = models.EmailField(max_length=50 , blank=True, null=True)
     address = models.CharField(max_length=100)
