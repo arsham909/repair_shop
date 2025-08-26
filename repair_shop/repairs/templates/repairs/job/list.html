@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="toolbar">
-    <a href="{% url 'repairs:repairs'%}" class="btn-primary"> Add repairs</a>
+    <a href="{% url 'repairs:check_in'%}" class="btn-primary">Check In device</a>
         <input
         type="search"
         id="searchcomponent"
@@ -18,7 +18,10 @@
         <br>
         
     </div>
-    {% for job in jobs%}
-    <p>{{job}}</p>
-    {% endfor %}
+    <div>
+        <h1>Checked In</h1>
+            {% for job in jobs%}
+            <p>{{job.device}}</p>
+            {% endfor %}
+    </div>
 {% endblock %}

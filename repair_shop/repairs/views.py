@@ -4,9 +4,9 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-from django.views.generic import CreateView, FormView, TemplateView
-from .models import Repair , Company
-from .forms import AddRepair, display_company , Company_details , make_form_readonly , Device_form, Assign_toForm
+from django.views.generic import CreateView, FormView, TemplateView , UpdateView, DetailView
+from .models import Repair , Company , Client
+from .forms import Client_Create_form, display_company , Company_details , make_form_readonly , Device_form, Assign_Form
 # Create your views here.
 
 #veiw for add repair
@@ -18,15 +18,79 @@ class CheckIn(TemplateView):
         context['Device_form'] = Device_form()
         return context
     
+    
     def post(self, request, *args, **kwargs):
         Device_input = Device_form(request.POST)
         repair = Repair()
         if Device_input.is_valid():
+            # Device_input.instance.created_by=request.user
             new_device = Device_input.save()
             repair.device = new_device
             repair.move_to_assign()
             repair.save()
             return redirect('repairs:repairs')
+    
+class assign_requested(TemplateView):
+    template_name = 'repairs/job/assign_request_form.html'
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['Assign_Form'] = Assign_Form()
+        print(context['Assign_Form'])
+        return context
+    def post(self, request , *args, **kwargs):
+        return
+
+
+
+class ClientCreateView(CreateView):
+    model = Repair
+    form_class = Client_Create_form
+    template_name = 'repairs/client/client_create_form.html'
+    success_url = '/repairs/job/list'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['client_form'] = Client_Create_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        new_client = Client_Create_form(request.POST)
+        if new_client.is_valid():
+            new_client.save()
+        return render(request, 'repairs/job/list.html',)
+    
+class Clients(TemplateView):
+    template_name = 'repairs/client/clients_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['clients'] = Client.objects.all()
+        context['client_form'] = Client_Create_form()
+        return context
+    
+class ClientDetailView(DetailView):
+    model = Client
+    template_name = 'repairs/client/client_detail.html'
+    fields ='__all__'
+    success_url = '/repairs/job/list'
+    
+    def get_context_data(self, **kwargs ):
+        context = super().get_context_data(**kwargs)
+        client_instance = self.object
+        context['client_detail'] = client_instance
+        context['client_form'] = make_form_readonly(Client_Create_form(instance=client_instance))
+        return context
+class ClientEditView(UpdateView):
+    model = Client
+    template_name = 'repairs/client/client_create_form.html'
+    success_url = '/repairs/clients'
+    fields ='__all__'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client_instance = self.object
+        context['client_detail'] = client_instance
+        context['client_form'] = Client_Create_form(instance=client_instance)
+        return context
     
     
 def jobs(request):

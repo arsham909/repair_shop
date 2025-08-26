@@ -1,0 +1,45 @@
+{% extends 'repairs/base.html'%}
+{% load custom_tags %}
+
+{% block title%} Clinets {% endblock %}
+
+{% block body %}
+    {% for message in messages %}
+    <h2>{{message}}</h2>
+    {% endfor %}
+    <div class="toolbar">
+        <a href="{% url 'repairs:client_create'%}" class="btn-primary"> Add Client</a>
+        <input
+        type="search"
+        id="search_companys"
+        name="search_companys"
+        class="searchbar"
+        placeholder="Search companies..."
+        /hx-get="{% url 'repairs:search_companies' %}"
+        hx-trigger="input  delay:300ms"
+        /hx-target="#companytable"
+        hx-swap="innerHTML"
+        />
+    </div>
+<table class="inventory-table" id="companytable/" >
+    <thead>
+        <tr>
+            {% for field in client_form %}
+                <th>{{ field.label }}</th>
+            {% endfor %}
+                <th></th>
+        </tr>
+    </thead>
+    <tbody >
+        {% for client in clients %}
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                {% for field in client_form %}
+                    <td>{{ client|getattribute:field.name }}</td>
+                {% endfor %}
+                <td><a href="{% url 'repairs:client_detail' client.pk %}" class="btn-primary">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

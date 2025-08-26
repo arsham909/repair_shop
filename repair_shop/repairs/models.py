@@ -19,12 +19,15 @@ class StatusManager(models.Manager):
     
 class Client(models.Model):
     name = models.CharField(max_length=20)
-    phone_number = models.CharField(max_length=20)
-    email = models.EmailField(max_length=50 , blank=True)
-    address = models.CharField(max_length=100 , blank=True)
-    notes = models.TextField(blank=True)
+    phone_number = models.CharField(max_length=20, verbose_name='Phone number')
+    email = models.EmailField(max_length=50 , blank=True, null=True)
+    address = models.CharField(max_length=100)
+    notes = models.TextField(blank=True, null=True)
     history
     #clien_for = models.TextChoices() should add this part - cleint is from who and should get choices from the user database and can add to the this
+    def get_absolute_url(self):
+        return reverse('repairs:client_detail', args=[self.pk])
+    
     def __str__(self):
         return f'{self.name}'
 class Company(models.Model):

@@ -1,11 +1,22 @@
 from django import forms
-from .models import Repair , Company , Device
+from .models import Repair , Company , Device , Client
 
 class AddRepair(forms.ModelForm):
     class Meta:
         model = Repair
         # fields = ['job_number', 'device_name']
         fields = "__all__"
+        
+
+        
+class Client_Create_form(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = '__all__'
+        widgets = {
+            'address': forms.Textarea(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control'}),
+        }
         
 class display_company(forms.ModelForm):
     class Meta:

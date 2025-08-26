@@ -1,0 +1,39 @@
+{% extends 'repairs/base.html' %}
+
+{% block title %}{{ client_detail.name }}{% endblock %}
+
+
+
+
+{% block body %}
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        <div class="form-grid">
+            {% for field in client_form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help-text">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                <p class="error-text">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <p> </p>
+        <a href="{% url 'repairs:client_edit' client_detail.pk %}" class="btn-primary">Edit </a>
+        <a href="{% url 'repairs:clients_list' %}" class="btn btn-warning">Back to list</a>
+        <button
+            type="button"
+            class="btn btn-danger"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-trigger="click"
+            hx-swap = "none">
+            Delete
+        </button>
+    </form>
+{% endblock %}

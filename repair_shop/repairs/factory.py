@@ -1,7 +1,7 @@
 from factory.django import DjangoModelFactory
 import factory
 from factory.faker import faker
-from .models import Company
+from .models import Company , Device
 
 class CompanyFactory(DjangoModelFactory):
     class Meta:
