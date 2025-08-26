@@ -50,12 +50,14 @@ class Device(models.Model):
     brand = models.CharField(max_length=100, verbose_name='Brand')
     device_name = models.CharField(max_length=100 , verbose_name='Device name')
     part_number = models.CharField(max_length=100, verbose_name='Part number')
-    serial_number = models.CharField(max_length=100, verbose_name='Serial number')
-    complain = models.TextField(blank=True, verbose_name='Customer complain')
-    description = models.TextField(blank=True, verbose_name='Notes')
-    shipped_from = models.TextField(blank=True , verbose_name='shipped from')
-    postal_code = models.CharField(max_length=10, blank=True, verbose_name='Postal code')
-    phone_numnber = models.CharField(blank=True, max_length=15 , verbose_name='Phone number')
+    serial_number = models.CharField(max_length=100, verbose_name='Serial number', unique=True)
+    complain = models.TextField(blank=True, verbose_name='Customer complain', null=True)
+    description = models.TextField(blank=True, verbose_name='Notes', null=True)
+    shipped_from = models.TextField(blank=True , verbose_name='shipped from', null=True)
+    postal_code = models.CharField(max_length=10, blank=True, verbose_name='Postal code', null=True)
+    phone_numnber = models.CharField(blank=True, max_length=15 , verbose_name='Phone number', null=True)
+    created_at = models.DateTimeField(auto_now_add=True,)
+    created_by = models.ForeignKey(User, on_delete=models.ProtectedError, verbose_name='Created by:')
     history
     
     def __str__(self):
@@ -65,26 +67,26 @@ class Device(models.Model):
         return True
 
 class Repair(models.Model):
-    job_number = models.PositiveIntegerField(blank=True,null=True ,unique=True, validators=[MaxValueValidator(999_999), MinValueValidator(100_000)], verbose_name='Job number')
+    job_number = models.PositiveIntegerField(blank=True, null=True ,unique=True, validators=[MaxValueValidator(999_999), MinValueValidator(100_000)], verbose_name='Job number')
     client = models.ForeignKey(Client, on_delete=models.ProtectedError, null=True, blank=True, related_name='Repairs',) # company.repairs.all()
-    device = models.ForeignKey(Device, on_delete=models.ProtectedError,related_name='Device' )
-    created_by = models.ForeignKey(User, on_delete=models.ProtectedError, verbose_name='Created by:', related_name='createdby')
+    device = models.ForeignKey(Device, on_delete=models.ProtectedError,related_name='Device' ,null=True )
+    created_by = models.ForeignKey(User, on_delete=models.ProtectedError, verbose_name='Created by:', related_name='createdby' ,null=True )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at',)
     
     state = FSMField(default=State.RECEIVED, protected=True)
     
     # data get at various steps
-    assigned_to = models.ForeignKey(User, on_delete=models.ProtectedError, blank=True,null=True, verbose_name='Assigened to:')
-    can_test = models.BooleanField(blank=True,verbose_name="Can device be tested")
-    notes = models.TextField(blank=True, max_length=250,)
-    followed_up = models.CharField(max_length=250)
-    video = models.FileField(upload_to='videos/',blank=True, verbose_name='upload video',)
-    parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs')
-    parts_total_price = models.PositiveIntegerField(verbose_name='At least total price of parts $:')
-    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, default=CustomerRespond.APPROVED, verbose_name='Customer respond')
+    assigned_to = models.ForeignKey(User, on_delete=models.ProtectedError, blank=True, null=True, verbose_name='Assigened to:')
+    can_test = models.BooleanField(blank=True,verbose_name="Can device be tested", null=True)
+    notes = models.TextField(blank=True, max_length=250, null=True )
+    followed_up = models.CharField(max_length=250 ,null=True )
+    video = models.FileField(upload_to='videos/',blank=True, verbose_name='upload video' ,null=True )
+    parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs' ,null=True )
+    parts_total_price = models.PositiveIntegerField(verbose_name='At least total price of parts $:' ,blank=True ,null=True )
+    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, default=CustomerRespond.APPROVED, verbose_name='Customer respond' ,null=True )
     
-    tracking_number = models.CharField(max_length=100, blank=True, verbose_name='Tracking number')
-    updated_at = models.DateTimeField(auto_now=True, )
+    tracking_number = models.CharField(max_length=100, blank=True, verbose_name='Tracking number' ,null=True )
+    updated_at = models.DateTimeField(auto_now=True ,null=True )
     history
     
     
@@ -138,7 +140,7 @@ class Repair(models.Model):
         # ]
         
     def __str__(self):
-        return self.device_name
+        return self.state
     
     
     #should add model manager later for just display customer and technician 
