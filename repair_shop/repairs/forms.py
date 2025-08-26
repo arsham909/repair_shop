@@ -33,7 +33,16 @@ class display_company(forms.ModelForm):
 class Company_details(forms.ModelForm):
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = [
+            'name',
+            'phonenumber',
+            'email',
+            'address',
+            'postal_code',
+            'contact_person',
+            'client',
+            'notes',
+        ]
         
         labels = {
             'phonenumber' : 'Phone number',
