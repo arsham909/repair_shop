@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import CheckIn
+from .views import CheckIn , assign_requested
 
 app_name = 'repairs'
 

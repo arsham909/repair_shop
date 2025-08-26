@@ -72,17 +72,32 @@ class Company_details(forms.ModelForm):
 class Device_form (forms.ModelForm):
     class Meta:
         model = Device
-        fields = '__all__'
+        fields = [
+            'brand',
+            'device_name',
+            'part_number',
+            'serial_number',
+            'complain',
+            'description',
+            'shipped_from',
+            'postal_code',
+            'phone_numnber',
+            'created_by'
+        ]
         widgets = {
             'complain': forms.Textarea(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'shipped_from': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
-class Assign_toForm(forms.ModelForm):
+class Assign_Form(forms.ModelForm):
     class Meta:
         model = Repair
-        fields = ['assigned_to']
+        fields = [
+            'assigned_to',
+            'client',
+            'job_number',
+            ]
 
     
 def make_form_readonly(form):

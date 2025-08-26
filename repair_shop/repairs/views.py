@@ -175,7 +175,5 @@ def search_company(request):
 #     return render(request , "repairs/job/AddRepairs.html", {"form": form})
 
 
-
-
 def thanks(request):
     return render(request, 'repairs/job/thanks.html', )

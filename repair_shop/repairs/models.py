@@ -67,7 +67,7 @@ class Device(models.Model):
         return f"{self.brand} {self.device_name} ({self.part_number}) Customer copmlain: {self.complain}".strip()
     
     def get_absolute_url(self):
-        return True
+        return reverse('repairs:device_detail', args=[self.pk])
 
 class Repair(models.Model):
     job_number = models.PositiveIntegerField(blank=True, null=True ,unique=True, validators=[MaxValueValidator(999_999), MinValueValidator(100_000)], verbose_name='Job number')
@@ -96,8 +96,11 @@ class Repair(models.Model):
     objects = models.Manager()
     MBV = StatusManager()
     
+    # def get_absolute_url(self):
+    #     return reverse('repairs:repair_detail', args=[self.pk])
+    
     def __str__(self):
-        return f'Repair {self.job_number}  {self.device} for {self.company} [{self.state}]'
+        return f'Repair {self.job_number}  {self.device} for {self.client} [{self.state}]'
     
     @transition(field=state, source=State.RECEIVED, target=State.ASSIGNED )
     def move_to_assign(self):
@@ -142,8 +145,8 @@ class Repair(models.Model):
         #     models.Index(fields=[''])
         # ]
         
-    def __str__(self):
-        return self.state
+    # def __str__(self):
+    #     return self.state
     
     
     #should add model manager later for just display customer and technician 
