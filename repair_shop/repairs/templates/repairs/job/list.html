@@ -15,6 +15,10 @@
         hx-target=""
         hx-swap=""
         />
-
-</div>
+        <br>
+        
+    </div>
+    {% for job in jobs%}
+    <p>{{job}}</p>
+    {% endfor %}
 {% endblock %}

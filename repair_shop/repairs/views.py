@@ -20,18 +20,22 @@ class CheckIn(TemplateView):
     
     def post(self, request, *args, **kwargs):
         Device_input = Device_form(request.POST)
-        
+        repair = Repair()
         if Device_input.is_valid():
-            Device_input.save()
+            new_device = Device_input.save()
+            repair.device = new_device
+            repair.move_to_assign()
+            repair.save()
             return redirect('repairs:repairs')
     
     
 def jobs(request):
     # MBVs = RepairJobs.MBV.all()
     # print(dir(request.user))
-    # jobs = request.user.Repairs.all()
+    jobs = Repair.objects.all()
+    print(jobs)
     return render(
-        request, 'repairs/job/list.html')
+        request, 'repairs/job/list.html', {'jobs':jobs})
 
 def list_companies(request):
     list = Company.objects.all().filter(is_active='True')
