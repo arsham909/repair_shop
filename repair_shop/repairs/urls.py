@@ -12,6 +12,8 @@ urlpatterns = [
     path('checkin/', CheckIn.as_view(), name='check_in'),
     path('assign-request', assign_requested.as_view(), name='assign-request'),
     
+    #path for repairs jobs
+    path('list/', views.Repairs_list.as_view(), name='repairs_list'),
     
     path('clients/', views.Clients.as_view(), name='clients_list'),
     path('client/create/', views.ClientCreateView.as_view(), name='client_create'),

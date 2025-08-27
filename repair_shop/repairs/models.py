@@ -80,13 +80,14 @@ class Repair(models.Model):
     
     # data get at various steps
     assigned_to = models.ForeignKey(User, on_delete=models.ProtectedError, blank=True, null=True, verbose_name='Assigened to:')
+    complain = models.TextField(verbose_name='customer complain', blank=True , null=True )
     can_test = models.BooleanField(blank=True,verbose_name="Can device be tested", null=True)
     notes = models.TextField(blank=True, max_length=250, null=True )
     followed_up = models.CharField(max_length=250 ,null=True )
     video = models.FileField(upload_to='videos/',blank=True, verbose_name='upload video' ,null=True )
     parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs' ,null=True )
     parts_total_price = models.PositiveIntegerField(verbose_name='At least total price of parts $:' ,blank=True ,null=True )
-    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, default=CustomerRespond.APPROVED, verbose_name='Customer respond' ,null=True )
+    customer_respond = models.CharField(max_length=15, choices=CustomerRespond, verbose_name='Customer respond' ,null=True )
     
     tracking_number = models.CharField(max_length=100, blank=True, verbose_name='Tracking number' ,null=True )
     updated_at = models.DateTimeField(auto_now=True ,null=True )
@@ -102,7 +103,11 @@ class Repair(models.Model):
     def __str__(self):
         return f'Repair {self.job_number}  {self.device} for {self.client} [{self.state}]'
     
-    @transition(field=state, source=State.RECEIVED, target=State.ASSIGNED )
+    @transition(field=state, source=State.RECEIVED, target=State.CHECKEDIN)
+    def move_to_checkin(self):
+        return
+    
+    @transition(field=state, source=State.CHECKEDIN, target=State.ASSIGNED )
     def move_to_assign(self):
         return 
     

@@ -1,0 +1,82 @@
+{% extends "repairs/base.html" %}
+{% load custom_tags %} 
+
+{% block title %}Jobs {% endblock%}
+
+{% block body %}
+<div class="toolbar">
+    <a href="{% url 'repairs:check_in'%}" class="btn-primary">Check In device</a>
+        <input
+        type="search"
+        id="searchcomponent"
+        name="searchcomponent1"
+        class="searchbar"
+        placeholder="Search repairs..."
+        hx-trigger="keyup changed delay:300ms"
+        hx-target=""
+        hx-swap=""
+        />
+        <br>
+        
+    </div>
+    <div>
+        <h1>Checked In</h1>
+        <table class="inventory-table" id="companytable" >
+    <thead>
+        <tr>
+                <th>brand</th>
+                <th>device name</th>
+                <th>shipped from</th>
+                <th>time checked in</th>
+                <th></th>
+                <th></th>
+        </tr>
+    </thead>
+    <tbody >
+        {% for repair in checked_in %}
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.device.shipped_from }}</td>
+                    <td>{{ repair.device.created_at }}</td>
+                    <td></td>
+                <td><a  class="btn-primary">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+        </table>
+
+
+        <h1>Repairs</h1>
+        <table class="inventory-table" id="companytable" >
+    <thead>
+        <tr>
+                <th>job number</th>
+                <th>brand</th>
+                <th>device name</th>
+                <th>assigned to</th>
+                <th>time checked in</th>
+                <th>complain</th>
+                <th>status</th>
+                <th></th>
+                <th></th>
+        </tr>
+    </thead>
+    <tbody >
+        {% for repair in repairs %}
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                    <td>{{ repair.job_number }}</td>
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.assigned_to }}</td>
+                    <td>{{ repair.device.created_at }}</td>
+                    <td>{{ repair.complain }}</td>
+                    <td>{{ repair.state }}</td>
+                    <td></td>
+                <td><a  class="btn-primary">View</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+        </table>
+    </div>
+{% endblock %}

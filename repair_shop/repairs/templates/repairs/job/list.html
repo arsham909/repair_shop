@@ -21,7 +21,7 @@
     <div>
         <h1>Checked In</h1>
             {% for job in jobs%}
-            <p>{{job.device}}</p>
+            <p>{{job.device}}  {{ job.pk}} </p>
             {% endfor %}
     </div>
 {% endblock %}

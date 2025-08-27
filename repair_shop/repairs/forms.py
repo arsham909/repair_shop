@@ -77,11 +77,11 @@ class Device_form (forms.ModelForm):
             'device_name',
             'part_number',
             'serial_number',
-            'complain',
             'description',
             'shipped_from',
             'postal_code',
             'phone_numnber',
+            'complain',
             'created_by'
         ]
         widgets = {
@@ -90,11 +90,22 @@ class Device_form (forms.ModelForm):
             'shipped_from': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+class Repairs_list(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'device',
+            'state',
+            
+        ]
+
+
 class Assign_Form(forms.ModelForm):
     class Meta:
         model = Repair
         fields = [
             'assigned_to',
+            'complain',
             'client',
             'job_number',
             ]
