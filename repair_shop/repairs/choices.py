@@ -1,6 +1,7 @@
 from django.db import models
 
 class State(models.TextChoices):
+    CHECKEDIN = "checked_in", "Checked in"
     RECEIVED = "received", "Received"
     VALIDATED = "validated", "Validated"
     ASSIGNED = "assigned", "Assigned"
