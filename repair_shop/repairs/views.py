@@ -40,19 +40,34 @@ class CheckIn(CreateView):
             repair.device = new_device
             repair.move_to_checkin()
             repair.save()
-            return redirect('repairs:repairs')
+            return redirect('repairs:repairs_list')
     
-class assign_requested(UpdateView):
+class Assigning(UpdateView):
+    
     model = Repair
     form_class = Assign_Form
     template_name = 'repairs/job/assign_request_form.html'
+    success_url = '/repairs/list/'
     
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-        context['Assign_Form'] = Assign_Form()
+        repiar_pk = self.kwargs.get('pk')
+        repair = Repair.objects.get(pk=repiar_pk)
+        field = {'job_number' : 100_000 + repiar_pk}
+        device_pk = repair.device.pk
+        print(Device.objects.get(pk=device_pk))
+        context['Device_form'] = make_form_readonly(Device_form(instance=Device.objects.get(pk=device_pk)))
+        context['Assign_Form'] = Assign_Form(initial=field)
         return context
-    def post(self, request , *args, **kwargs):
-        return
+    
+    def post(self, request, *args, **kwargs):
+        repair = self.get_object()
+        assign_input = self.form_class(request.POST, instance=repair)
+        if assign_input.is_valid():
+            repair_instance = assign_input.save(commit=False)
+            repair_instance.move_to_assign()
+            repair_instance.save()
+        return redirect('repairs:repairs_list')
 
 #Device class base view
 class Device_list(ListView):
@@ -69,6 +84,7 @@ class ClientCreateView(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        repair = self.object
         context['client_form'] = Client_Create_form()
         return context
 
