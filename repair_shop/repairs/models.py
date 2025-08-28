@@ -88,6 +88,7 @@ class Repair(models.Model):
     parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs' ,null=True )
     parts_total_price = models.PositiveIntegerField(verbose_name='At least total price of parts $:' ,blank=True ,null=True )
     customer_respond = models.CharField(max_length=15, choices=CustomerRespond, verbose_name='Customer respond' ,null=True )
+    rush = models.BooleanField(verbose_name='Rush', null=True, blank=True , default=False)
     
     tracking_number = models.CharField(max_length=100, blank=True, verbose_name='Tracking number' ,null=True )
     updated_at = models.DateTimeField(auto_now=True ,null=True )
@@ -97,8 +98,8 @@ class Repair(models.Model):
     objects = models.Manager()
     MBV = StatusManager()
     
-    # def get_absolute_url(self):
-    #     return reverse('repairs:repair_detail', args=[self.pk])
+    def get_absolute_url(self):
+        return reverse('repairs:repair_detail', args=[self.pk])
     
     def __str__(self):
         return f'Repair {self.job_number}  {self.device} for {self.client} [{self.state}]'
