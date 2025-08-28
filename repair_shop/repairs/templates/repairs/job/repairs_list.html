@@ -40,7 +40,7 @@
                     <td>{{ repair.device.shipped_from }}</td>
                     <td>{{ repair.device.created_at }}</td>
                     <td></td>
-                <td><a  class="btn-primary">View</a></td>
+                <td><a href="{% url 'repairs:assigning' repair.pk %}" class="btn-primary">Assign to</a></td>
         </tr>
         {% endfor %}
     </tbody>

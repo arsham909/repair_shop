@@ -1,6 +1,46 @@
+.acc-container{
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 15px;
+    background: #35b5d8;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+.acc-input{
+    display: none;
+}
+
+.acc-label {
+    padding: 8px 22px;
+    margin: 0 0 1px 0;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: ease .5s;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+
+.acc-content {
+    padding: 10px 25px;
+    margin: 0 0 1px 0;
+    border-radius: 3px;
+}
+
+.acc-input + .acc-label + .acc-content {
+    display: none;
+}
+
+.acc-input:checked + .acc-label + .acc-content {
+    display: block;
+}
+
+
 /* Basic form container styling */
-.form-container {
-    max-width: 600px;
+.acc-form-container {
+    max-width: 1000px;
     margin: 20px auto;
     padding: 15px;
     background: #f9f9f9;
@@ -9,38 +49,33 @@
     font-family: Arial, sans-serif;
 }
 
-/* Grid layout for fields */
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 15px;
-}
 
-.form-grid-2 {
+
+.form-grid-acc {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    border: 1px solid #ddd;
 }
 
 /* Label styling */
-.form-label {
+.acc-form-label {
+    padding: 0.5rem ;
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
     color: #333;
+    border: 0.25px solid #cdcdcd;
 }
 
 /* Input, select, textarea styles */
-.form-container input[type="text"],
-.form-container input[type="number"],
-.form-container input[type="email"],
-.form-container input[type="password"],
-.form-container select,
-.form-container textarea {
+.acc-form-container input[type="text"],
+.acc-form-container input[type="number"],
+.acc-form-container input[type="email"],
+.acc-form-container input[type="password"],
+.acc-form-container select,
+.acc-form-container textarea {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #aaa;
-    border-radius: 5px;
+    padding: 0.5rem;
+    border: 0.25px solid #cdcdcd;
     font-size: 14px;
     background: #fff;
     box-sizing: border-box;
