@@ -82,7 +82,7 @@ class Device_form (forms.ModelForm):
             'postal_code',
             'phone_numnber',
             'complain',
-            'created_by'
+            'created_by',
         ]
         widgets = {
             'complain': forms.Textarea(attrs={'class': 'form-control'}),
@@ -90,6 +90,16 @@ class Device_form (forms.ModelForm):
             'shipped_from': forms.Textarea(attrs={'class': 'form-control'}),
         }
 
+class Assign_Form(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'job_number',
+            'assigned_to',
+            'complain',
+            'client',
+            'rush',
+            ]
 class Repairs_list(forms.ModelForm):
     class Meta:
         model = Repair
@@ -100,15 +110,6 @@ class Repairs_list(forms.ModelForm):
         ]
 
 
-class Assign_Form(forms.ModelForm):
-    class Meta:
-        model = Repair
-        fields = [
-            'assigned_to',
-            'complain',
-            'client',
-            'job_number',
-            ]
 
     
 def make_form_readonly(form):
