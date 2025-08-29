@@ -73,10 +73,19 @@
                     <td>{{ repair.complain }}</td>
                     <td>{{ repair.state }}</td>
                     <td></td>
-                <td><a  class="btn-primary">View</a></td>
+{% with transitions=repair.get_available_state_transitions %}
+        {% if transitions %}
+            {% for transition in transitions %}
+                <td><a href="{% url 'repairs:'|add:transition.name repair.pk %}" class="btn-primary">{{ transition.name }}</a></td>
+            {% endfor %}
+        {% else %}
+        (No actions available)
+        {% endif %}
+{% endwith %}
         </tr>
         {% endfor %}
     </tbody>
         </table>
     </div>
 {% endblock %}
+

@@ -1,0 +1,51 @@
+{% extends "repairs/base.html" %}
+{% load custom_tags %} 
+
+{% block title %} Repair {% endblock%}
+
+{% block body %}
+    <section>
+
+    </section>
+    <table class="inventory-table" id="companytable" >
+    <thead>
+        <tr>
+                <th>Date:</th>
+                <th>Job number:</th>
+                <th>Assigend to:</th>
+                <th>Rush:</th>
+                <th>Brand:</th>
+                <th>Device name:</th>
+                <th>Complain:</th>
+                <th>Part number:</th>
+                <th>Serial number:</th>
+                <th>Can test:</th>
+                <th>Parts cost:</th>
+                <th>Notes:</th>
+                <th>Parts:</th>
+                <th>Video:</th>
+                <th>Status:</th>
+        </tr>
+    </thead>
+    <tbody >
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                    <td>{{ repair.created_at }}</td>
+                    <td>{{ repair.job_number }}</td>
+                    <td>{{ repair.assigned_to }}</td>
+                    <td>{{ repair.rush }}</td>
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.complain }}</td>
+                    <td>{{ repair.device.part_number }}</td>
+                    <td>{{ repair.device.serial_number }}</td>
+                    <td>{{ repair.can_test }}</td>
+                    <td>{{ repair.parts_total_price }}</td>
+                    <td>{{ repair.notes }}</td>
+                    <td>{{ repair.parts_needs }}</td>
+                    <td>{{ repair.video }}</td>
+                    <td>{{ repair.state }}</td>
+                    
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
