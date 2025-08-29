@@ -6,9 +6,7 @@ class AddRepair(forms.ModelForm):
         model = Repair
         # fields = ['job_number', 'device_name']
         fields = "__all__"
-        
 
-        
 class Client_Create_form(forms.ModelForm):
     class Meta:
         model = Client
@@ -17,7 +15,7 @@ class Client_Create_form(forms.ModelForm):
             'address': forms.Textarea(attrs={'class': 'form-control'}),
             'notes': forms.Textarea(attrs={'class': 'form-control'}),
         }
-        
+
 class display_company(forms.ModelForm):
     class Meta:
         model = Company
@@ -39,8 +37,7 @@ class display_company(forms.ModelForm):
             'address': forms.Textarea(attrs={'class': 'form-control'}),
             'notes': forms.Textarea(attrs={'class': 'form-control'}),
         }
-        
-        
+
 class Company_details(forms.ModelForm):
     class Meta:
         model = Company
@@ -65,8 +62,7 @@ class Company_details(forms.ModelForm):
             'address': forms.Textarea(attrs={'class': 'form-control'}),
             'notes': forms.Textarea(attrs={'class': 'form-control'}),
         }
-        
-        
+
 #forms for repairs transition 
 #start here
 class Device_form (forms.ModelForm):
@@ -109,6 +105,17 @@ class Repairs_list(forms.ModelForm):
             
         ]
 
+
+class Evaluating(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'parts_needs',
+            'can_test',
+            'evaluating_notes',
+            'parts_total_price',
+            
+        ]
 
 
     
