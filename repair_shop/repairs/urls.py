@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import CheckIn , Assigning
+from .views import CheckIn , Assigning, Evaluating
 
 app_name = 'repairs'
 
@@ -10,10 +10,13 @@ urlpatterns = [
     path('thanks/', views.thanks, name='thanks'),
     #field for state machine
     path('checkin/', CheckIn.as_view(), name='check_in'),
-    path('assigning/<int:pk>', Assigning.as_view(), name='assigning'),
+    path('assigning/<int:pk>/', Assigning.as_view(), name='assigning'),
+    path('evaluating/<int:pk>/', Evaluating.as_view(), name='evaluating'),
+    path('qouting/<int:pk>/', Evaluating.as_view(), name='qouting'),
     
     #path for repairs jobs
     path('list/', views.Repairs_list.as_view(), name='repairs_list'),
+    path('detail/<int:pk>/', views.Repair_detail.as_view(), name='repair_detail'),
     
     path('clients/', views.Clients.as_view(), name='clients_list'),
     path('client/create/', views.ClientCreateView.as_view(), name='client_create'),

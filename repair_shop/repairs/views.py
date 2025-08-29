@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.generic import CreateView, FormView, TemplateView , UpdateView, DetailView, ListView
 from .models import Repair , Company , Client , Device
-from .forms import Client_Create_form, display_company , Company_details , make_form_readonly , Device_form, Assign_Form
+from .forms import Client_Create_form, display_company , Company_details , make_form_readonly , Device_form, Assign_Form, Evaluating
 # Create your views here.
 
 class Repairs_list(ListView):
@@ -20,6 +20,15 @@ class Repairs_list(ListView):
         context['repairs'] = Repair.objects.exclude(state ='checked_in' )
         return context
         
+class Repair_detail(DetailView):
+    model = Repair
+    template_name = 'repairs/job/repair_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['repair'] = self.get_object()
+        return context
+
 #veiw for add repair
 class CheckIn(CreateView):
     model=Repair
@@ -68,6 +77,26 @@ class Assigning(UpdateView):
             repair_instance.move_to_assign()
             repair_instance.save()
         return redirect('repairs:repairs_list')
+
+class Evaluating(UpdateView):
+    model = Repair
+    template_name = 'repairs/job/evaluating.html'
+    context_object_name = 'repair' 
+    form_class = Evaluating
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['EvaluatiingForm'] = self.form_class()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        repair = self.get_object()
+        evaluating_input = self.form_class(request.POST, instance=repair)
+        if evaluating_input.is_valid():
+            repair_instance = evaluating_input.save(commit=False)
+            repair_instance.evaluating()
+            repair_instance.save()
+        return redirect('repairs:repairs_list')
+
 
 #Device class base view
 class Device_list(ListView):
@@ -132,7 +161,6 @@ def jobs(request):
     # MBVs = RepairJobs.MBV.all()
     # print(dir(request.user))
     jobs = Repair.objects.all()
-    print(jobs)
     return render(
         request, 'repairs/job/list.html', {'jobs':jobs})
 
