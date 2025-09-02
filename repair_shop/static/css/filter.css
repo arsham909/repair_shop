@@ -1,0 +1,88 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+/* Hide the checkbox */
+.filter-toggle {
+    display: none;
+}
+
+/* Style the filter button (the label for the checkbox) */
+.filter-button {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    padding: 10px 15px;
+    background-color: #9fa79fa5;
+    color: rgb(255, 0, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it's on top of everything */
+    transition: background-color 0.3s ease;
+}
+
+.filter-button:hover {
+    background-color: #555555;
+}
+
+/* Style the sliding filter container */
+.filter-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 20%; /* Takes up 1/5 of the window width */
+    height: 100vh; /* Takes up the full viewport height */
+    background-color: rgba(255, 255, 255, 0.9); /* Low opacity background */
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%); /* Initially off-screen to the right */
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Style the content inside the filter panel */
+.filter-container h3 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.filter-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-container li {
+    margin-bottom: 5px;
+}
+
+.filter-container a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px 0;
+    transition: color 0.2s ease;
+}
+
+.filter-container a:hover {
+    color: #007bff;
+}
+
+/* Show the filter container when the checkbox is checked */
+.filter-toggle:checked ~ .filter-button {
+    background-color: #dc3545; /* Optional: change button color when active */
+    color: black;
+}
+
+.filter-toggle:checked ~ .filter-container {
+    transform: translateX(0); /* Slide it into view */
+    opacity: 1; /* Make it fully visible */
+}
+
+/* Optional: Example of main content to demonstrate the filter overlay */
+.main-content {
+    margin: 20px;
+}

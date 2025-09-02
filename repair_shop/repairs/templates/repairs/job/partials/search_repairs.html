@@ -3,20 +3,22 @@
 <table class="inventory-table" id="RepairTable" >
     <thead>
         <tr>
-                <th>job number</th>
-                <th>brand</th>
-                <th>device name</th>
-                <th>assigned to</th>
-                <th>time checked in</th>
-                <th>complain</th>
-                <th>status</th>
-                <th></th>
-                <th></th>
+            <th>#</th>
+            <th>job number</th>
+            <th>brand</th>
+            <th>device name</th>
+            <th>assigned to</th>
+            <th>time checked in</th>
+            <th>complain</th>
+            <th>status</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody >
         {% for repair in repairs %}
             <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                <td>{{ forloop.counter }}</td>
                 <td>{{ repair.job_number }}</td>
                 <td>{{ repair.device.brand }}</td>
                 <td>{{ repair.device.device_name }}</td>

@@ -4,7 +4,7 @@
 {% block title %}Jobs {% endblock%}
 
 {% block body %}
-<div class="toolbar">
+    <div class="toolbar">
     <a href="{% url 'repairs:check_in'%}" class="btn-primary">Check In device</a>
         <input
         type="search"
@@ -20,52 +20,161 @@
         <br>
         
     </div>
+    <div class="filter-wrapper">
+        <input type="checkbox" id="filter-toggle" class="filter-toggle">
+        <label for="filter-toggle" class="filter-button">Filter</label>
+        <div class="filter-container">
+            <div class="filter-content">
+                <h3><strong>Status:</strong></h3>
+                <ul>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=approved"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=approved"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >approved</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=repairing"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=repairing"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >repairing</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=repaired"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=repaired"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >repaired</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=ready_to_ship"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=ready_to_ship"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >ready_to_ship</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=validated"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=validated"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >validated</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=assigned"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=assigned"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >assigned</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=quoted"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=quoted"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >quoted</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=shipped"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=shipped"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >shipped</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="filter-content">
+                <h3><strong>Assigned to:</strong></h3>
+                <ul>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=mike"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=mike"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >mike</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=chris"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=chris"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >chris</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'repairs:search_repairs' %}?SearchRepairs=deb"
+                            hx-get="{% url 'repairs:search_repairs' %}?SearchRepairs=deb"
+                            hx-trigger="click"
+                            hx-target="#RepairTable"
+                            hx-swap="innerHTML"
+                        >deb</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div>
         <h1><strong>Checked In</strong></h1>
         <table class="inventory-table" id="companytable" >
             <thead>
                 <tr>
-                        <th>brand</th>
-                        <th>device name</th>
-                        <th>shipped from</th>
-                        <th>time checked in</th>
-                        <th></th>
-                        <th></th>
+                    <th>#</th>
+                    <th>brand</th>
+                    <th>device name</th>
+                    <th>shipped from</th>
+                    <th>time checked in</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody >
                 {% for repair in checked_in %}
                 <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
-                            <td>{{ repair.device.brand }}</td>
-                            <td>{{ repair.device.device_name }}</td>
-                            <td>{{ repair.device.shipped_from }}</td>
-                            <td>{{ repair.device.created_at }}</td>
-                            <td></td>
+                    <td>{{ forloop.counter }} </td>
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.device.shipped_from }}</td>
+                    <td>{{ repair.device.created_at }}</td>
+                    <td></td>
                         <td><a href="{% url 'repairs:assigning' repair.pk %}" class="btn-primary">Assign to</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
 
-
-        <h1><strong>Repairs</strong></h1>
+        <div>
+            <h1><strong>Repairs</strong></h1>
+        </div>
         <table class="inventory-table" id="RepairTable" >
             <thead>
                 <tr>
-                        <th>job number</th>
-                        <th>brand</th>
-                        <th>device name</th>
-                        <th>assigned to</th>
-                        <th>time checked in</th>
-                        <th>complain</th>
-                        <th>status</th>
-                        <th></th>
-                        <th></th>
+                    <th>#</th>
+                    <th>job number</th>
+                    <th>brand</th>
+                    <th>device name</th>
+                    <th>assigned to</th>
+                    <th>time checked in</th>
+                    <th>complain</th>
+                    <th>status</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody >
                 {% for repair in repairs %}
                     <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                        <td>{{ forloop.counter }} </td>
                         <td>{{ repair.job_number }}</td>
                         <td>{{ repair.device.brand }}</td>
                         <td>{{ repair.device.device_name }}</td>
@@ -92,28 +201,30 @@
         <table class="inventory-table" id="companytable" >
             <thead>
                 <tr>
-                        <th>job number</th>
-                        <th>brand</th>
-                        <th>device name</th>
-                        <th>assigned to</th>
-                        <th>time checked in</th>
-                        <th>complain</th>
-                        <th>status</th>
-                        <th></th>
-                        <th></th>
+                    <th>#</th>
+                    <th>job number</th>
+                    <th>brand</th>
+                    <th>device name</th>
+                    <th>assigned to</th>
+                    <th>time checked in</th>
+                    <th>complain</th>
+                    <th>status</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody >
                 {% for repair in shipped %}
                     <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
-                        <td>{{ repair.job_number }}</td>
-                        <td>{{ repair.device.brand }}</td>
-                        <td>{{ repair.device.device_name }}</td>
-                        <td>{{ repair.assigned_to }}</td>
-                        <td>{{ repair.device.created_at }}</td>
-                        <td>{{ repair.complain }}</td>
-                        <td>{{ repair.state }}</td>
-                        <td></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ repair.job_number }}</td>
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.assigned_to }}</td>
+                    <td>{{ repair.device.created_at }}</td>
+                    <td>{{ repair.complain }}</td>
+                    <td>{{ repair.state }}</td>
+                    <td></td>
             {% with transitions=repair.get_available_state_transitions %}
                     {% if transitions %}
                         {% for transition in transitions %}
