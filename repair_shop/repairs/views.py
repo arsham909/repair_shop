@@ -10,6 +10,7 @@ from .forms import ( Client_Create_form, display_company,
                     Company_details, make_form_readonly , Device_form,
                     Assign_Form, Evaluating, Qouting_form, Approved_form, 
                     Repairing_form, Shipper_form, Shipped_form)
+from .mixins import ClientSearchMixin
 # Create your views here.
 
 class Repairs_list(ListView):
@@ -241,6 +242,20 @@ class ClientEditView(UpdateView):
         context['client_detail'] = client_instance
         context['client_form'] = Client_Create_form(instance=client_instance)
         return context
+
+class ClientsSearch(ClientSearchMixin, ListView, ):
+    model = Client
+    template_name = 'repairs/client/partials/search_clients.html'
+    context_object_name = 'clients'
+    paginate_by = 10
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['client_form'] = Client_Create_form()
+        return context
+
 
 def jobs(request):
     # MBVs = RepairJobs.MBV.all()

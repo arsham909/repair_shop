@@ -23,6 +23,7 @@ class Client(models.Model):
     email = models.EmailField(max_length=50 , blank=True, null=True)
     address = models.CharField(max_length=100)
     notes = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     history
     #clien_for = models.TextChoices() should add this part - cleint is from who and should get choices from the user database and can add to the this
     def get_absolute_url(self):
@@ -73,6 +74,7 @@ class Repair(models.Model):
     job_number = models.PositiveIntegerField(blank=True, null=True ,unique=True, validators=[MaxValueValidator(999_999), MinValueValidator(100_000)], verbose_name='Job number')
     client = models.ForeignKey(Client, on_delete=models.ProtectedError, null=True, blank=True, related_name='Repairs',) # company.repairs.all()
     device = models.ForeignKey(Device, on_delete=models.ProtectedError,related_name='Device' ,null=True )
+    company = models.ForeignKey(Company, on_delete=models.ProtectedError,related_name='Company' ,null=True )
     created_by = models.ForeignKey(User, on_delete=models.ProtectedError, verbose_name='Created by:', related_name='createdby' ,null=True )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Created at',)
     

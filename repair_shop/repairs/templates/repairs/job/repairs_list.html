@@ -64,25 +64,25 @@
     </thead>
     <tbody >
         {% for repair in repairs %}
-        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
-                    <td>{{ repair.job_number }}</td>
-                    <td>{{ repair.device.brand }}</td>
-                    <td>{{ repair.device.device_name }}</td>
-                    <td>{{ repair.assigned_to }}</td>
-                    <td>{{ repair.device.created_at }}</td>
-                    <td>{{ repair.complain }}</td>
-                    <td>{{ repair.state }}</td>
-                    <td></td>
-{% with transitions=repair.get_available_state_transitions %}
-        {% if transitions %}
-            {% for transition in transitions %}
-                <td><a href="{% url 'repairs:'|add:transition.name repair.pk %}" class="btn-primary">Next step</a></td>
-            {% endfor %}
-        {% else %}
-        (No actions available)
-        {% endif %}
-{% endwith %}
-        </tr>
+            <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                <td>{{ repair.job_number }}</td>
+                <td>{{ repair.device.brand }}</td>
+                <td>{{ repair.device.device_name }}</td>
+                <td>{{ repair.assigned_to }}</td>
+                <td>{{ repair.device.created_at }}</td>
+                <td>{{ repair.complain }}</td>
+                <td>{{ repair.state }}</td>
+                <td></td>
+    {% with transitions=repair.get_available_state_transitions %}
+            {% if transitions %}
+                {% for transition in transitions %}
+                        <td><a href="{% url 'repairs:'|add:transition.name repair.pk %}" class="btn-primary">Next step</a></td>
+                {% endfor %}
+            {% else %}
+            (No actions available)
+            {% endif %}
+    {% endwith %}
+            </tr>
         {% endfor %}
     </tbody>
         </table>

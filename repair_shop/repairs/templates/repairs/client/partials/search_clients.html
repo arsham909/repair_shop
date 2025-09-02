@@ -1,26 +1,5 @@
-{% extends 'repairs/base.html'%}
 {% load custom_tags %}
 
-{% block title%} Clinets {% endblock %}
-
-{% block body %}
-    {% for message in messages %}
-    <h2>{{message}}</h2>
-    {% endfor %}
-    <div class="toolbar">
-        <a href="{% url 'repairs:client_create'%}" class="btn-primary"> Add Client</a>
-        <input
-        type="search"
-        id="SearchClients"
-        name="SearchClients"
-        class="searchbar"
-        placeholder="Search companies..."
-        hx-get="{% url 'repairs:search_clients' %}"
-        hx-trigger="input  delay:300ms"
-        hx-target="#ClientTable"
-        hx-swap="innerHTML"
-        />
-    </div>
 <table class="inventory-table" id="ClientTable" >
     <thead>
         <tr>
@@ -41,5 +20,3 @@
         {% endfor %}
     </tbody>
 </table>
-
-{% endblock %}

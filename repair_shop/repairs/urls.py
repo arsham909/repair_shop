@@ -29,6 +29,7 @@ urlpatterns = [
     path('client/create/', views.ClientCreateView.as_view(), name='client_create'),
     path('client/<int:pk>/', views.ClientDetailView.as_view(), name='client_detail'),
     path('client/<int:pk>/edit/', views.ClientEditView.as_view(), name='client_edit'),
+    path('search/clients/', views.ClientsSearch.as_view(), name='search_clients' ),
     # path('client/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_create'),
     
     path('addcompany/', views.AddCompany_view, name='addcompany'),
