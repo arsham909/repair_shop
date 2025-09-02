@@ -134,13 +134,20 @@ class Approved_form(forms.ModelForm):
             'customer_respond'
         ]
 class Repairing_form(forms.ModelForm):
-    repaired_note = forms.CharField(max_length=25)
     class Meta:
         model = Repair
         fields = [
             'parts_needs',
             'video',
             'how_fixed',
+            'repaired_notes',
+        ]
+        
+class Shipper_form(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'shipper_note'
         ]
         
 def make_form_readonly(form):

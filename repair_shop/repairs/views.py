@@ -9,7 +9,7 @@ from .models import Repair , Company , Client , Device
 from .forms import ( Client_Create_form, display_company,
                     Company_details, make_form_readonly , Device_form,
                     Assign_Form, Evaluating, Qouting_form, Approved_form, 
-                    Repairing_form)
+                    Repairing_form, Shipper_form)
 # Create your views here.
 
 class Repairs_list(ListView):
@@ -148,6 +148,20 @@ class Repairing(UpdateView):
                 repair_instance.repaired()
                 repair_instance.save()
             return redirect('repairs:repairs_list')
+
+class Shipper(UpdateView):
+    model = Repair
+    template_name = 'repairs/job/state_machine/shipper.html'
+    form_class = Shipper_form
+    
+    def post (self, request, *args, **kwargs):
+        repair = self.get_object()
+        repair_input = self.form_class(request.POST, instance=repair)
+        if repair_input.is_valid():
+            repair_instance = repair_input.save(commit=False)
+            repair_instance.shipper()
+            repair_instance.save()
+        return redirect('repairs:repairs_list')
 #Device class base view
 class Device_list(ListView):
     model = Device

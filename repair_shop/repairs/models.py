@@ -94,6 +94,7 @@ class Repair(models.Model):
     qouting_notes = models.TextField(blank=True, max_length=500, null=True, default='', verbose_name='qouting note')
     repaired_notes = models.TextField(blank=True, max_length=500, null=True, default='', verbose_name='repaired note')
     how_fixed = models.TextField(blank=True, null=True, verbose_name="How did you fix?")
+    shipper_note = models.TextField(blank=True, null=True, verbose_name="Note for shipper")
     
     notes = models.TextField(blank=True, max_length=500, null=True  )
     
@@ -148,7 +149,7 @@ class Repair(models.Model):
     def repaired(self):
         return
     @transition(field=state, source=State.REPAIRED, target=State.READY_TO_SHIP )
-    def approveds(self):
+    def shipper(self):
         return
     @transition(field=state, source=State.READY_TO_SHIP, target=State.SHIPPED)
     def move_to_shipped(self):
