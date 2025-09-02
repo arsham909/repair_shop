@@ -18,7 +18,6 @@ class State(models.TextChoices):
     CANCELLED = "cancelled", "Cancelled"
     SCRAP = 'scrap', 'Scrapped'
     READY_TO_SHIP = 'ready_to_ship' , 'Ready to ship'
-    DONE = 'done', 'Done'
     
 class CustomerRespond(models.TextChoices):
     APPROVED = 'approved', "Approved"

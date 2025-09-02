@@ -150,6 +150,12 @@ class Shipper_form(forms.ModelForm):
             'shipper_note'
         ]
         
+class Shipped_form(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'tracking_number'
+        ]
 def make_form_readonly(form):
     """
     Loops through form fields and makes them read-only/disabled.

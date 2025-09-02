@@ -1,0 +1,61 @@
+{% extends 'repairs/base.html' %}
+
+{% block body %}
+
+    <table class="inventory-table" id="companytable" >
+    <thead>
+        <tr>
+                <th>Date:</th>
+                <th>Job number:</th>
+                <th>Brand:</th>
+                <th>Device name:</th>
+                <th>Part number:</th>
+                <th>Serial number:</th>
+                <th>notes:</th>
+                <th>client:</th>
+                <th>Company:</th>
+                <th>Address:</th>
+                <th>Postal code:</th>
+                <th>number:</th>
+        </tr>
+    </thead>
+    <tbody >
+        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                    <td>{{ repair.created_at }}</td>
+                    <td>{{ repair.job_number }}</td>
+                    <td>{{ repair.device.brand }}</td>
+                    <td>{{ repair.device.device_name }}</td>
+                    <td>{{ repair.device.part_number }}</td>
+                    <td>{{ repair.device.serial_number }}</td>
+                    <td>{{ repair.shipper_note }}</td>
+                    <td>{{ repair.client.name}}</td>
+                    <td>{{ repair.client.name}}</td>
+                    <td>{{ repair.client.address }}</td>
+                    <td>{{ repair.client.email }}</td>
+                    <td>{{ repair.client.phone_number }}</td>
+        </tr>
+    </tbody>
+    </table>
+    <form method="post"  class="form-container" id="forms_input">
+        {%csrf_token%}
+        <div class="form-grid">
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                <p class="help-text">{{ field.help_text }}</p>
+                {% endif %}
+                {% for error in field.errors %}
+                <p class="error-text">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        <p></p>
+        <button  type="submit" class="form-button">Submit</button>
+        <output id="toast"></output>
+    </form>
+{% endblock %}

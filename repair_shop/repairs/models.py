@@ -152,10 +152,10 @@ class Repair(models.Model):
     def shipper(self):
         return
     @transition(field=state, source=State.READY_TO_SHIP, target=State.SHIPPED)
-    def move_to_shipped(self):
+    def done(self):
         return
     @transition(field=state, source=State.SHIPPED, target=State.DONE)
-    def move_to_done(self):
+    def approveds(self):
         return
 
     class Meta:
