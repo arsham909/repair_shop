@@ -10,7 +10,7 @@ from .forms import ( Client_Create_form, display_company,
                     Company_details, make_form_readonly , Device_form,
                     Assign_Form, Evaluating, Qouting_form, Approved_form, 
                     Repairing_form, Shipper_form, Shipped_form)
-from .mixins import ClientSearchMixin
+from .mixins import ClientSearchMixin, RepairSearchMixin
 # Create your views here.
 
 class Repairs_list(ListView):
@@ -21,7 +21,8 @@ class Repairs_list(ListView):
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         context['checked_in'] = Repair.objects.filter(state ='checked_in')
-        context['repairs'] = Repair.objects.exclude(state ='checked_in' )
+        context['repairs'] = Repair.objects.exclude(state__in =['checked_in','shipped'] )
+        context['shipped'] = Repair.objects.filter(state ='shipped')
         return context
         
 class Repair_detail(DetailView):
@@ -32,6 +33,14 @@ class Repair_detail(DetailView):
         context = super().get_context_data(**kwargs)
         context['repair'] = self.get_object()
         return context
+    
+class RepairSearch(RepairSearchMixin, ListView):
+    model = Repair
+    template_name = 'repairs/job/partials/search_repairs.html'
+    paginate_by = 25
+    context_object_name = 'repairs'
+    
+
 
 #veiw for add repair
 class CheckIn(CreateView):

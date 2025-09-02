@@ -119,7 +119,7 @@ class Repair(models.Model):
         return
     
     @transition(field=state, source=State.CHECKEDIN, target=State.ASSIGNED )
-    def move_to_assign(self):
+    def approveds(self):
         return 
     
     @transition(field=state, source=State.ASSIGNED, target=State.VALIDATED)

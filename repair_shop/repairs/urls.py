@@ -24,13 +24,14 @@ urlpatterns = [
     #path for repairs jobs
     path('list/', views.Repairs_list.as_view(), name='repairs_list'),
     path('detail/<int:pk>/', views.Repair_detail.as_view(), name='repair_detail'),
+    path('search/repairs/', views.RepairSearch.as_view(), name='search_repairs'),
     
     path('clients/', views.Clients.as_view(), name='clients_list'),
     path('client/create/', views.ClientCreateView.as_view(), name='client_create'),
     path('client/<int:pk>/', views.ClientDetailView.as_view(), name='client_detail'),
     path('client/<int:pk>/edit/', views.ClientEditView.as_view(), name='client_edit'),
-    path('search/clients/', views.ClientsSearch.as_view(), name='search_clients' ),
     # path('client/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_create'),
+    path('search/clients/', views.ClientsSearch.as_view(), name='search_clients' ),
     
     path('addcompany/', views.AddCompany_view, name='addcompany'),
     path('companies/list/',views.list_companies, name='companies_list'),
