@@ -83,6 +83,7 @@ class Repair(models.Model):
     can_test = models.BooleanField(blank=True,verbose_name="Can device be tested", null=True)
     followed_up = models.CharField(max_length=250 ,null=True )
     video = models.FileField(upload_to='videos/',blank=True, verbose_name='upload video' ,null=True )
+    # parts_needs_evaluating = models.ManyToManyField(InventoryItem, related_name='repairs' ,null=True )
     parts_needs = models.ManyToManyField(InventoryItem, related_name='repairs' ,null=True )
     parts_total_price = models.PositiveIntegerField(verbose_name='Minimum total price of parts $:' ,blank=True ,null=True )
     customer_respond = models.CharField(max_length=15, choices=CustomerRespond, verbose_name='Customer respond' ,null=True )
@@ -92,6 +93,7 @@ class Repair(models.Model):
     evaluating_notes = models.TextField(blank=True, max_length=500, null=True, default='', verbose_name='evaluating note')
     qouting_notes = models.TextField(blank=True, max_length=500, null=True, default='', verbose_name='qouting note')
     repaired_notes = models.TextField(blank=True, max_length=500, null=True, default='', verbose_name='repaired note')
+    how_fixed = models.TextField(blank=True, null=True, verbose_name="How did you fix?")
     
     notes = models.TextField(blank=True, max_length=500, null=True  )
     
@@ -121,26 +123,32 @@ class Repair(models.Model):
     def evaluating(self):
         return 
     
+    # @transition(field=state, source=State.VALIDATED, target=State.QUOTING)
+    # def qouting(self):
+    #     return
     @transition(field=state, source=State.VALIDATED, target=State.QUOTED)
-    def qouting(self):
+    def qouted(self):
         return
+    # @transition(field=state, source=State.QUOTING, target=State.QUOTED)
+    # def qouted(self):
+    #     return
     @transition(field=state, source=State.QUOTED, target=State.APPROVED)
-    def move_to_approved(self):
+    def approved(self):
         return
     @transition(field=state, source=[State.APPROVED, State.PART_ADDED], target=State.REPAIRING)
-    def move_to_repairing(self):
+    def repairing(self):
         return
     @transition(field=state, source=State.REPAIRING, target=State.PART_ADDED)
-    def move_to_part_adding(self):
+    def approveds(self):
         return
     @transition(field=state, source=State.REPAIRING, target=State.WAITING_FOR_PART)
-    def move_to_waiting_part(self):
+    def approveds(self):
         return
     @transition(field=state, source=State.REPAIRING, target=State.REPAIRED)
-    def move_to_repaired(self):
+    def repaired(self):
         return
     @transition(field=state, source=State.REPAIRED, target=State.READY_TO_SHIP )
-    def move_to_read_to_ship(self):
+    def approveds(self):
         return
     @transition(field=state, source=State.READY_TO_SHIP, target=State.SHIPPED)
     def move_to_shipped(self):
@@ -149,8 +157,8 @@ class Repair(models.Model):
     def move_to_done(self):
         return
 
-    # class Meta:
-        # ordering = ['']
+    class Meta:
+        ordering = ['state']
         
         # indexes = [
         #     models.Index(fields=[''])

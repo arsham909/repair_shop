@@ -116,9 +116,33 @@ class Evaluating(forms.ModelForm):
             'parts_total_price',
             
         ]
+        # widgets = {
+        #     'parts_needs' : forms.CheckboxSelectMultiple,
+        #     }
 
+class Qouting_form(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields= [
+            'qouting_notes'
+        ]
 
-    
+class Approved_form(forms.ModelForm):
+    class Meta:
+        model = Repair
+        fields = [
+            'customer_respond'
+        ]
+class Repairing_form(forms.ModelForm):
+    repaired_note = forms.CharField(max_length=25)
+    class Meta:
+        model = Repair
+        fields = [
+            'parts_needs',
+            'video',
+            'how_fixed',
+        ]
+        
 def make_form_readonly(form):
     """
     Loops through form fields and makes them read-only/disabled.

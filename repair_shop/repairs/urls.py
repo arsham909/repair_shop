@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import CheckIn , Assigning, Evaluating
+from .views import CheckIn , Assigning, Evaluating, Qouting, Approved, Repairing
 
 app_name = 'repairs'
 
@@ -12,7 +12,13 @@ urlpatterns = [
     path('checkin/', CheckIn.as_view(), name='check_in'),
     path('assigning/<int:pk>/', Assigning.as_view(), name='assigning'),
     path('evaluating/<int:pk>/', Evaluating.as_view(), name='evaluating'),
-    path('qouting/<int:pk>/', Evaluating.as_view(), name='qouting'),
+    path('qouting/<int:pk>/', Qouting.as_view(), name='qouting'),
+    path('qouted/<int:pk>/', Qouting.as_view(), name='qouted'),
+    path('approved/<int:pk>/', Approved.as_view(), name='approved'),
+    path('repairing/<int:pk>/', Assigning.as_view(), name='repairing'),
+    path('repaired/<int:pk>/', Repairing.as_view(), name='repaired'),
+    path('shipping/<int:pk>/', Evaluating.as_view(), name='approveds'),
+    path('done/<int:pk>/', Evaluating.as_view(), name='done'),
     
     #path for repairs jobs
     path('list/', views.Repairs_list.as_view(), name='repairs_list'),

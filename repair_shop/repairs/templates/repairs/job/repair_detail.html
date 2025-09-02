@@ -41,7 +41,11 @@
                     <td>{{ repair.can_test }}</td>
                     <td>{{ repair.parts_total_price }}</td>
                     <td>{{ repair.notes }}</td>
-                    <td>{{ repair.parts_needs }}</td>
+                    <td>
+                    {% for part in repair.parts_needs.all %}
+                        <p>{{ part }}</p>
+                    {% endfor %}
+                    </td>
                     <td>{{ repair.video }}</td>
                     <td>{{ repair.state }}</td>
                     

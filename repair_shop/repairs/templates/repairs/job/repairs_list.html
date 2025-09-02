@@ -76,7 +76,7 @@
 {% with transitions=repair.get_available_state_transitions %}
         {% if transitions %}
             {% for transition in transitions %}
-                <td><a href="{% url 'repairs:'|add:transition.name repair.pk %}" class="btn-primary">{{ transition.name }}</a></td>
+                <td><a href="{% url 'repairs:'|add:transition.name repair.pk %}" class="btn-primary">Next step</a></td>
             {% endfor %}
         {% else %}
         (No actions available)

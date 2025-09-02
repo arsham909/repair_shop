@@ -6,6 +6,7 @@ class State(models.TextChoices):
     VALIDATED = "validated", "Validated"
     ASSIGNED = "assigned", "Assigned"
     EVALUATING = "evaluating", "Evaluating"
+    QUOTING = "qouting", "Qouting"
     QUOTED = "quoted", "Quoted"
     APPROVED = "approved", "Approved"
     REPAIRING = "repairing", "Repairing"

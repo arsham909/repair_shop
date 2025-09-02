@@ -6,7 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.views.generic import CreateView, FormView, TemplateView , UpdateView, DetailView, ListView
 from .models import Repair , Company , Client , Device
-from .forms import Client_Create_form, display_company , Company_details , make_form_readonly , Device_form, Assign_Form, Evaluating
+from .forms import ( Client_Create_form, display_company,
+                    Company_details, make_form_readonly , Device_form,
+                    Assign_Form, Evaluating, Qouting_form, Approved_form, 
+                    Repairing_form)
 # Create your views here.
 
 class Repairs_list(ListView):
@@ -33,7 +36,7 @@ class Repair_detail(DetailView):
 class CheckIn(CreateView):
     model=Repair
     form_class = Device_form
-    template_name = 'repairs/job/checkin_form.html'
+    template_name = 'repairs/job/state_machine/checkin_form.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,7 +58,7 @@ class Assigning(UpdateView):
     
     model = Repair
     form_class = Assign_Form
-    template_name = 'repairs/job/assign_request_form.html'
+    template_name = 'repairs/job/state_machine/assign_request_form.html'
     success_url = '/repairs/list/'
     
     def get_context_data(self, **kwargs):
@@ -80,7 +83,7 @@ class Assigning(UpdateView):
 
 class Evaluating(UpdateView):
     model = Repair
-    template_name = 'repairs/job/evaluating.html'
+    template_name = 'repairs/job/state_machine/evaluating.html'
     context_object_name = 'repair' 
     form_class = Evaluating
     def get_context_data(self, **kwargs):
@@ -93,17 +96,64 @@ class Evaluating(UpdateView):
         evaluating_input = self.form_class(request.POST, instance=repair)
         if evaluating_input.is_valid():
             repair_instance = evaluating_input.save(commit=False)
+            print(evaluating_input)
             repair_instance.evaluating()
             repair_instance.save()
+            evaluating_input.save_m2m()
         return redirect('repairs:repairs_list')
 
+class Qouting(UpdateView):
+    model = Repair
+    template_name = 'repairs/job/state_machine/qouted.html'
+    form_class = Qouting_form
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['qouting_form'] = self.form_class()
+        return context
+    def post(self, request, *args, **kwargs):
+        repair = self.get_object()
+        qouting_input = self.form_class(request.POST, instance=repair)
+        if qouting_input.is_valid():
+            repiar_instance = qouting_input.save(commit=False)
+            repiar_instance.qouted()
+            repiar_instance.save()
+        return redirect('repairs:repairs_list')
 
+class Approved(UpdateView):
+    model = Repair
+    template_name = 'repairs/job/state_machine/approved.html'
+    form_class = Approved_form
+    
+    def post(self, request, *args, **kwargs):
+            repair = self.get_object()
+            approved_input = self.form_class(request.POST, instance=repair)
+            if approved_input.is_valid():
+                repair_instance = approved_input.save(commit=False)
+                repair_instance.approved()
+                repair_instance.repairing()
+                repair_instance.save()
+            return redirect('repairs:repairs_list')
+    
+class Repairing(UpdateView):
+    model = Repair
+    template_name = 'repairs/job/state_machine/repairing.html'
+    form_class = Repairing_form
+    
+    def post(self, request, *args, **kwargs):
+            repair = self.get_object()
+            repaired_input = self.form_class(request.POST, instance=repair)
+            if repaired_input.is_valid():
+                repair_instance = repaired_input.save(commit=False)
+                repair_instance.repaired()
+                repair_instance.save()
+            return redirect('repairs:repairs_list')
 #Device class base view
 class Device_list(ListView):
     model = Device
     template_name = 'repairs/device/device_list.html'
     context_object_name = 'devices'
-    
+
 #client class view (create list ,detail , edit)
 class ClientCreateView(CreateView):
     model = Repair
