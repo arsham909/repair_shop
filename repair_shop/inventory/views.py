@@ -1,10 +1,11 @@
 from django.shortcuts import render , redirect , HttpResponseRedirect , get_object_or_404 
 from django.urls import reverse
 from django.http import HttpResponse
-from .models import InventoryItem 
-from .forms import Add_components , make_form_readonly
-from django.contrib import messages
+from .models import InventoryItem , PartsBasket
+from .forms import Add_components , make_form_readonly , AddParts
+from django.contrib import messages 
 from django.db.models import Q
+from django.views.generic import CreateView, UpdateView, ListView
 # Create your views here.
 
 def inventory(request):
@@ -54,7 +55,6 @@ def component_delete(request , pk):
 def thanks(request):
     return render(request, 'inventory/items/thanks.html', )
 
-
 def searchcomponent(request):
     query = request.GET.get('searchcomponent1', '')
     components = InventoryItem.objects.filter(is_active=True)
@@ -68,3 +68,25 @@ def searchcomponent(request):
             ).order_by('category', 'quantity')
     components = components.order_by('category', 'quantity')
     return render(request,'inventory/partials/searchcomponent.html', {'to_buy': components})
+
+class PartsBasket(CreateView):
+    model = PartsBasket
+    template_name = 'inventory/basket/add_parts.html'
+    context_object_name = 'basket'
+    form_class = AddParts
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['partform'] = AddParts()
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        part = AddParts(request.POST, )
+        if part.is_valid():
+            part.save()
+            return redirect('inventory:basket_list')
+
+class PartsBasketEdit(UpdateView):
+    pass
+
+class PartsBasketList(ListView):
+    pass

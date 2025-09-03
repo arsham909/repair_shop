@@ -1,0 +1,13 @@
+{% include 'inventory/base.html' %}
+
+{% block title %} Order Parts {% endblock %}
+
+{% block body%}
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in partform %}
+            <div>{{ field.label }}</div>
+            <div>{{field}}</div>
+        {% endfor %}
+    </form>
+{% endblock %}

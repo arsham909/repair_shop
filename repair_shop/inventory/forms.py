@@ -1,5 +1,5 @@
 from django import forms
-from .models import InventoryItem
+from .models import InventoryItem, PartsBasket
 
 class Add_components(forms.ModelForm):
     class Meta:
@@ -19,7 +19,11 @@ class Add_components(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'class': 'form-control'})
         }
-        
+
+class AddParts(forms.ModelForm):
+    class Meta:
+        model = PartsBasket
+        fields = ['link', 'quantity', 'partnumber', 'jobnumber', 'notes']
         
 def make_form_readonly(form):
     """

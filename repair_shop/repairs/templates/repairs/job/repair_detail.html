@@ -16,42 +16,40 @@
             </div>
         </div>
     </label>
-            <div class="detail-container-acc">
-                <div class="accordion-content">
-                    <div class="details-grid">
-                        <div><strong>Date:</strong> {{ repair.created_at|date:"Y-m-d" }}</div>
-                        <div><strong>Job Number:</strong> {{ repair.job_number }}</div>
-                        <div><strong>Assigned To:</strong> {{ repair.assigned_to|default:"N/A" }}</div>
-                        <div><strong>Rush:</strong> {% if repair.rush %}Yes{% else %}No{% endif %}</div>
-                        <div><strong>Brand:</strong> {{ repair.device.brand }}</div>
-                        <div><strong>Device Name:</strong> {{ repair.device.device_name }}</div>
-                        <div><strong>Part Number:</strong> {{ repair.device.part_number|default:"N/A" }}</div>
-                        <div><strong>Serial Number:</strong> {{ repair.serial_number }}</div>
-                        <div><strong>Can Test:</strong> {% if repair.can_test %}Yes{% else %}No{% endif %}</div>
-                        <div><strong>Parts Cost:</strong> ${{ repair.parts_total_price|default:"0.00" }}</div>
-                        <div class="grid-col-span-2 align-top"><strong>Complain:</strong> {{ repair.complain }}</div>
-                        <div class="grid-col-span-2 align-top"><strong>Notes:</strong> {{ repair.notes|default:"None" }}</div>
-                        <div class="grid-col-span-2">
-                            <strong>Parts:</strong>
-                            {% for part in repair.parts_needs.all %}
-                                <span>{{ part.name }}{% if not forloop.last %}, {% endif %}</span>
-                            {% empty %}
-                                <span>None</span>
-                            {% endfor %}
-                        </div>
-                        <div><strong>Tracking:</strong> {{ repair.tracking_number|default:"N/A" }}</div>
-                        <div><strong>Video:</strong> 
-                            {% if repair.video %}
-                                <a href="{{ repair.video.url }}" target="_blank" style="color: #2563eb; text-decoration: underline;">View Video</a>
-                            {% else %}
-                                N/A
-                            {% endif %}
-                        </div>
-                    </div>
+    <div class="detail-container-acc">
+        <div class="accordion-content">
+            <div class="details-grid">
+                <div><strong>Date:</strong> {{ repair.created_at|date:"Y-m-d" }}</div>
+                <div><strong>Job Number:</strong> {{ repair.job_number }}</div>
+                <div><strong>Assigned To:</strong> {{ repair.assigned_to|default:"N/A" }}</div>
+                <div><strong>Rush:</strong> {% if repair.rush %}Yes{% else %}No{% endif %}</div>
+                <div><strong>Brand:</strong> {{ repair.device.brand }}</div>
+                <div><strong>Device Name:</strong> {{ repair.device.device_name }}</div>
+                <div><strong>Part Number:</strong> {{ repair.device.part_number|default:"N/A" }}</div>
+                <div><strong>Serial Number:</strong> {{ repair.serial_number }}</div>
+                <div><strong>Can Test:</strong> {% if repair.can_test %}Yes{% else %}No{% endif %}</div>
+                <div><strong>Parts Cost:</strong> ${{ repair.parts_total_price|default:"0.00" }}</div>
+                <div class="grid-col-span-2 align-top"><strong>Complain:</strong> {{ repair.complain }}</div>
+                <div class="grid-col-span-2 align-top"><strong>Notes:</strong> {{ repair.notes|default:"None" }}</div>
+                <div class="grid-col-span-2">
+                    <strong>Parts:</strong>
+                    {% for part in repair.parts_needs.all %}
+                        <span>{{ part.name }}{% if not forloop.last %}, {% endif %}</span>
+                    {% empty %}
+                        <span>None</span>
+                    {% endfor %}
+                </div>
+                <div><strong>Tracking:</strong> {{ repair.tracking_number|default:"N/A" }}</div>
+                <div><strong>Video:</strong> 
+                    {% if repair.video %}
+                        <a href="{{ repair.video.url }}" target="_blank" style="color: #2563eb; text-decoration: underline;">View Video</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
                 </div>
             </div>
         </div>
-    
+    </div>
 </div>
 
 {% endblock %}

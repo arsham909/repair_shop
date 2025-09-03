@@ -36,3 +36,13 @@ class InventoryItem(models.Model):
         
     def __str__(self):
         return self.name
+    
+class PartsBasket(models.Model):
+    link = models.TextField(verbose_name='link:' , )
+    partnumber = models.TextField(verbose_name='Part Number:')
+    quantity = models.PositiveIntegerField(verbose_name='Quantity:', default=1)
+    jobnumber = models.PositiveIntegerField(verbose_name='Job Number:', )
+    notes = models.TextField(verbose_name='Notes', null=True, blank=True)
+    ordered = models.BooleanField(verbose_name='Ordered', default=False)
+    arrive_date = models.DateField(null=True, blank=True, )
+    

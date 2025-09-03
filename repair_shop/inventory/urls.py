@@ -11,4 +11,8 @@ urlpatterns  = [
     path('component/<int:pk>/delete', views.component_delete, name='component_delete' ),
     path('search/components/', views.searchcomponent, name='search_component'),
     path('thanks/', views.thanks, name='thanks'),
+    # part basket urls
+    path('basket/list/', views.PartsBasketList.as_view(), name='basket_list'),
+    path('basket/parts/add', views.PartsBasket.as_view(), name='basket_add'),
+    path('basket/parts/order', views.PartsBasketEdit.as_view(), name='basket_order'),
 ]
