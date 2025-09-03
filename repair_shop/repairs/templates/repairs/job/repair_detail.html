@@ -1,55 +1,57 @@
-{% extends "repairs/base.html" %}
 {% load custom_tags %} 
-
-{% block title %} Repair {% endblock%}
-
 {% block body %}
-    <section>
 
-    </section>
-    <table class="inventory-table" id="companytable" >
-    <thead>
-        <tr>
-                <th>Date:</th>
-                <th>Job number:</th>
-                <th>Assigend to:</th>
-                <th>Rush:</th>
-                <th>Brand:</th>
-                <th>Device name:</th>
-                <th>Complain:</th>
-                <th>Part number:</th>
-                <th>Serial number:</th>
-                <th>Can test:</th>
-                <th>Parts cost:</th>
-                <th>Notes:</th>
-                <th>Parts:</th>
-                <th>Video:</th>
-                <th>Status:</th>
-        </tr>
-    </thead>
-    <tbody >
-        <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
-                    <td>{{ repair.created_at }}</td>
-                    <td>{{ repair.job_number }}</td>
-                    <td>{{ repair.assigned_to }}</td>
-                    <td>{{ repair.rush }}</td>
-                    <td>{{ repair.device.brand }}</td>
-                    <td>{{ repair.device.device_name }}</td>
-                    <td>{{ repair.complain }}</td>
-                    <td>{{ repair.device.part_number }}</td>
-                    <td>{{ repair.device.serial_number }}</td>
-                    <td>{{ repair.can_test }}</td>
-                    <td>{{ repair.parts_total_price }}</td>
-                    <td>{{ repair.notes }}</td>
-                    <td>
-                    {% for part in repair.parts_needs.all %}
-                        <p>{{ part }}</p>
-                    {% endfor %}
-                    </td>
-                    <td>{{ repair.video }}</td>
-                    <td>{{ repair.state }}</td>
-                    
-        </tr>
-    </tbody>
-    </table>
+<div class="accordion-container">
+    <input type="checkbox" id="detail-toggle" class="detail-input-acc">
+    <label for="detail-toggle"  class="detail-label-acc">
+        <div class="accordion-header" >
+            <div class="header-left">
+                <span class="header-title">{{ repair.job_number }} - {{ repair.device.brand }} {{ repair.device.device_name }}</span>
+                <span class="header-subtitle">Assigned: {{ repair.assigned_to|default:"N/A" }}</span>
+            </div>
+            <div class="header-right">
+                <!-- Add a class based on the repair state -->
+                <span class="status-badge status-in-progress">{{ repair.state }}</span>
+                <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </div>
+        </div>
+    </label>
+            <div class="detail-container-acc">
+                <div class="accordion-content">
+                    <div class="details-grid">
+                        <div><strong>Date:</strong> {{ repair.created_at|date:"Y-m-d" }}</div>
+                        <div><strong>Job Number:</strong> {{ repair.job_number }}</div>
+                        <div><strong>Assigned To:</strong> {{ repair.assigned_to|default:"N/A" }}</div>
+                        <div><strong>Rush:</strong> {% if repair.rush %}Yes{% else %}No{% endif %}</div>
+                        <div><strong>Brand:</strong> {{ repair.device.brand }}</div>
+                        <div><strong>Device Name:</strong> {{ repair.device.device_name }}</div>
+                        <div><strong>Part Number:</strong> {{ repair.device.part_number|default:"N/A" }}</div>
+                        <div><strong>Serial Number:</strong> {{ repair.serial_number }}</div>
+                        <div><strong>Can Test:</strong> {% if repair.can_test %}Yes{% else %}No{% endif %}</div>
+                        <div><strong>Parts Cost:</strong> ${{ repair.parts_total_price|default:"0.00" }}</div>
+                        <div class="grid-col-span-2 align-top"><strong>Complain:</strong> {{ repair.complain }}</div>
+                        <div class="grid-col-span-2 align-top"><strong>Notes:</strong> {{ repair.notes|default:"None" }}</div>
+                        <div class="grid-col-span-2">
+                            <strong>Parts:</strong>
+                            {% for part in repair.parts_needs.all %}
+                                <span>{{ part.name }}{% if not forloop.last %}, {% endif %}</span>
+                            {% empty %}
+                                <span>None</span>
+                            {% endfor %}
+                        </div>
+                        <div><strong>Tracking:</strong> {{ repair.tracking_number|default:"N/A" }}</div>
+                        <div><strong>Video:</strong> 
+                            {% if repair.video %}
+                                <a href="{{ repair.video.url }}" target="_blank" style="color: #2563eb; text-decoration: underline;">View Video</a>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</div>
+
 {% endblock %}

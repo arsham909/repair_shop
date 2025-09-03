@@ -1,0 +1,113 @@
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6;
+    padding: 2rem;
+    color: #1f2937; /* Default text color (gray-800) */
+}
+
+.detail-input-acc {
+    display: none;
+}
+
+
+.detail-input-acc + .detail-label-acc + .detail-container-acc {
+    display: none;
+}
+
+.detail-input-acc:checked + .detail-label-acc + .detail-container-acc {
+    display: block;
+}
+/* --- Accordion Container --- */
+.accordion-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.5rem; /* rounded-lg */
+    border: 1px solid #e5e7eb; /* border-gray-200 */
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+    overflow: hidden; /* Ensures content doesn't spill out on animation */
+}
+
+/* --- Accordion Header --- */
+.accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    user-select: none; /* Prevents text selection on click */
+}
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.header-title {
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600; /* font-semibold */
+}
+.header-subtitle {
+    font-size: 0.875rem; /* text-sm */
+    font-weight: 500; /* font-medium */
+    color: #6b7280; /* text-gray-500 */
+}
+
+/* --- Status Badge --- */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem; /* text-xs */
+    font-weight: 600; /* font-semibold */
+    border-radius: 9999px; /* rounded-full */
+}
+/* Example for 'In Progress'. You can add more for other statuses. */
+.status-in-progress {
+    color: #166534; /* text-green-800 */
+    background-color: #dcfce7; /* bg-green-100 */
+}
+.status-completed {
+        color: #374151; /* text-gray-800 */
+        background-color: #e5e7eb; /* bg-gray-200 */
+}
+
+.chevron-icon {
+    color: #6b7280; /* text-gray-500 */
+    transition: transform 0.3s ease-in-out;
+}
+/* Rotates icon when header has 'open' class */
+.accordion-header.open .chevron-icon {
+    transform: rotate(180deg);
+}
+
+/* --- Accordion Content --- */
+.detail-container-acc{
+    padding: 10px;
+}
+
+/* --- Details Grid --- */
+.details-grid {
+    display: grid;
+    gap: 1rem 2rem; /* gap-y-4 gap-x-8 */
+    font-size: 0.875rem; /* text-sm */
+}
+/* Responsive: 1 column on small screens, 2 on larger screens */
+@media (min-width: 768px) { /* Corresponds to Tailwind's 'md' breakpoint */
+    .details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .grid-col-span-2 {
+        grid-column: span 2 / span 2;
+    }
+}
+.details-grid strong {
+    display: inline-block;
+    width: 7rem; /* w-28 */
+    color: #6b7280; /* text-gray-500 */
+    font-weight: 600;
+}
+.details-grid .align-top strong {
+        vertical-align: top;
+}
+
