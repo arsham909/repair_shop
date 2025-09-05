@@ -1,12 +1,70 @@
 from django.shortcuts import render , redirect , HttpResponseRedirect , get_object_or_404 
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponse
-from .models import InventoryItem , PartsBasket
-from .forms import Add_components , make_form_readonly , AddParts
 from django.contrib import messages 
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, ListView
+from .models import InventoryItem , PartsBasket
+from .forms import Add_components , make_form_readonly , AddParts, OrderedParts
 # Create your views here.
+
+class PartsBasketList(ListView):
+    model = PartsBasket
+    template_name = 'inventory/basket/parts_list.html'
+    paginate_by = 25
+    context_object_name = 'parts'
+class PartsBasketCreate(CreateView):
+    model = PartsBasket
+    template_name = 'inventory/basket/add_parts.html'
+    context_object_name = 'basket'
+    form_class = AddParts
+    success_url = reverse_lazy('inventory:basket_list')
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['partform'] = AddParts()
+    #     return context
+    
+    # def post(self, request, *args, **kwargs):
+    #     part = self.form_class(request.POST)
+    #     parts_basket = PartsBasket()
+    #     if part.is_valid():
+    #         parts = part.save()
+    #         parts_basket = parts
+    #         parts_basket.save()
+    #         return redirect('inventory:basket_list')
+
+class PartsBasketEdit(UpdateView):
+    model = PartsBasket
+    template_name = 'inventory/basket/edit_part.html'
+    context_object_name = 'basket'
+    form_class = OrderedParts
+    success_url = reverse_lazy('inventory:basket_list')
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['partform'] = OrderedParts()
+    #     return context
+    
+    # def post(self, request, *args, **kwargs):
+    #     part = self.form_class(request.POST)
+    #     parts_basket = OrderedParts()
+    #     if part.is_valid():
+    #         parts = part.save()
+    #         parts_basket = parts
+    #         parts_basket.save()
+    #         return redirect('inventory:basket_list')
+    
+
+# def Part_Edit(request, pk):
+#     part = get_object_or_404(PartsBasket, pk=pk)
+#     if request.method == 'POST':
+#         form = OrderedParts(request.POST, instance=part)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('inventory:basket_list')
+#     else:
+#         form = OrderedParts(instance=part)
+#     return render(request, 'inventory/basket/edit_part.html', {'form':form})
+
 
 def inventory(request):
     to_buy = InventoryItem.to_buy.filter(is_active='True').order_by('category', 'quantity')
@@ -69,24 +127,4 @@ def searchcomponent(request):
     components = components.order_by('category', 'quantity')
     return render(request,'inventory/partials/searchcomponent.html', {'to_buy': components})
 
-class PartsBasket(CreateView):
-    model = PartsBasket
-    template_name = 'inventory/basket/add_parts.html'
-    context_object_name = 'basket'
-    form_class = AddParts
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['partform'] = AddParts()
-        return context
-    
-    def post(self, request, *args, **kwargs):
-        part = AddParts(request.POST, )
-        if part.is_valid():
-            part.save()
-            return redirect('inventory:basket_list')
 
-class PartsBasketEdit(UpdateView):
-    pass
-
-class PartsBasketList(ListView):
-    pass

@@ -46,3 +46,11 @@ class PartsBasket(models.Model):
     ordered = models.BooleanField(verbose_name='Ordered', default=False)
     arrive_date = models.DateField(null=True, blank=True, )
     
+    objects = models.Manager()
+    history = HistoricalRecords()
+    
+    def get_absolute_url(self):
+        return reverse('inventory:basket_order', args=[self.pk])
+    
+    def __str__(self):
+        return self.link

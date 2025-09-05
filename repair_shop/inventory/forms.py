@@ -25,6 +25,17 @@ class AddParts(forms.ModelForm):
         model = PartsBasket
         fields = ['link', 'quantity', 'partnumber', 'jobnumber', 'notes']
         
+        widgets = {
+            'link': forms.Textarea(attrs={'class': 'form-control'}),
+            'partnumber': forms.Textarea(attrs={'class': 'form-control'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control'}),
+        }
+class OrderedParts(forms.ModelForm):
+    class Meta:
+        model = PartsBasket
+        fields = '__all__'
+        
+        
 def make_form_readonly(form):
     """
     Loops through form fields and makes them read-only/disabled.

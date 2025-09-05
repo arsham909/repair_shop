@@ -1,0 +1,66 @@
+{% extends 'inventory/base.html' %}
+
+{% block title %} Basket {% endblock%}
+
+{% block body %}
+<div>
+
+</div>
+<a href="{% url 'inventory:basket_add' %}" class="btn-primary">Order Parts</a>
+
+<h1><strong>Not Ordered</strong></h1>
+    <table class="inventory-table" >
+        <thead>
+            <tr>
+                <th>Link</th>
+                <th>Quantity</th>
+                <th>Job number</th>
+                <th>Ordered</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+        <tbody id="componentstable">
+            {% for item in parts %}
+            {% if item.ordered == 0 %}
+            <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                <td><a href="{{ item.link }}">{{ item.link }}</a></td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.jobnumber }}</td>
+                <td class="low-quantity">Not Ordered </td>
+                <td class="description-cell">{{ item.notes }}</td>
+                <td><a href="{% url 'inventory:hi' item.pk %}"  class="btn-primary">Edit</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1><strong>Ordered</strong></h1>
+    <table class="inventory-table" >
+        <thead>
+            <tr>
+                <th>Link</th>
+                <th>Quantity</th>
+                <th>Job number</th>
+                <th>Ordered</th>
+                <th>Notes</th>
+                <th>Date Arrive</th>
+            </tr>
+        </thead>
+        <tbody id="componentstable">
+            {% for item in parts %}
+            {% if item.ordered == 1 %}
+            <tr class="{% cycle 'odd-row' 'even-row' %} " id="component-{{ item.id }}">
+                <td><a href="{{ item.link }}">{{ item.link }}</a></td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.jobnumber }}</td>
+                <td class="quantity-cell">Ordered </td>
+                <td class="description-cell">{{ item.notes }}</td>
+                <td class="description-cell">{{ item.arrive_date }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

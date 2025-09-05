@@ -13,6 +13,6 @@ urlpatterns  = [
     path('thanks/', views.thanks, name='thanks'),
     # part basket urls
     path('basket/list/', views.PartsBasketList.as_view(), name='basket_list'),
-    path('basket/parts/add', views.PartsBasket.as_view(), name='basket_add'),
-    path('basket/parts/order', views.PartsBasketEdit.as_view(), name='basket_order'),
+    path('basket/parts/add', views.PartsBasketCreate.as_view(), name='basket_add'),
+    path('basket/parts/<int:pk>', views.PartsBasketEdit.as_view(), name='hi'),
 ]
